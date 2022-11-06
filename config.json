@@ -1,0 +1,472 @@
+{
+  "log": {
+    "access": "/var/log/xray/access.log",
+    "error": "/var/log/xray/error.log",
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 36963,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "f77b62b2-40ce-4b04-90bc-cbf6f28e3315",
+            "email": "2@mohammad",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "735d04b0-d7ea-5d4e-a642-34f3d79f925e",
+            "email": "2@pokileda",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "c3e16e91-325a-4c55-835b-fa5607ab5b76",
+            "email": "1@ahmadreza",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "d1765b7f-e697-44c8-aae0-9d14c1836700",
+            "email": "1@shahriar",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "d9c8cc81-45bb-4ec1-a8f1-1fab4e3540bc",
+            "email": "1@milad",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "0a19f423-b989-4b78-8572-88458b633f60",
+            "email": "1@hamed",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "9bf70444-9ea0-455e-b0a1-b8998340e115",
+            "email": "1@amireza",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "b3a730fe-3118-1e96-08b8-fd2d385ac54a",
+            "email": "2@09195343226_mohammadrezasaffari",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "a8d75657-5654-4a6f-ba49-dcbe4150ab53",
+            "email": "2@test",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "d776ae62-f40a-48d9-9b29-f48227492d1d",
+            "email": "2@09124190313_babak-khangholi",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "8a52fea8-3ea8-4df1-a603-a104c37b7f57",
+            "email": "3@09129731315_behshad-arabzadeh",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "6a2ec30b-e333-4f4c-b168-05ff12542f2c",
+            "email": "1@mamane_pania",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "83f4e92a-45b6-4be9-987a-ee852d9ba9ff",
+            "email": "1@salehzadeh_aida",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "88d32359-675a-4614-a561-0221c6f59d4f",
+            "email": "1@salehzadeh_mohsen",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "26e13a82-5e34-4ed2-8e19-3ddd71f43e57",
+            "email": "1@salehzadeh_zohre",
+            "level": 1,
+            "alterId": 0
+          },
+	  {
+            "id": "a1e9f1fa-3fdc-410f-b244-fdf83967dbef",
+            "email": "1@hadi_1",
+            "level": 1,
+            "alterId": 0
+          },
+	  {
+            "id": "f0dd075a-a01a-4134-bcfd-eaafbada603e",
+            "email": "1@hadi_2",
+            "level": 1,
+            "alterId": 0
+          },
+  	  {
+            "id": "58642d98-1a9a-4f19-8941-e10ba5f12e59",
+            "email": "1@hadi_3",
+            "level": 1,
+            "alterId": 0
+          },
+	  {
+            "id": "8200b3d8-34de-40ef-8f9f-19801807b37e",
+            "email": "1@hadi_4",
+            "level": 1,
+            "alterId": 0
+          },
+	  {
+            "id": "e9db9991-20a4-4832-8d0a-6ae0609d135b",
+            "email": "1@hadi_5",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "f4ad756d-0925-4d42-b6d8-70fe2490f2f0",
+            "email": "1@hadi_6",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "35c828b0-a647-4470-80dd-b9bdd9bb68f4",
+            "email": "1@hadi_7",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "b119d09f-0d40-41df-97f3-92fcc3d92501",
+            "email": "1@hadi_8",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "5cd65e0e-d183-4745-ba98-ec116907e98b",
+            "email": "1@hadi_9",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "8bd082cf-6973-418a-8f42-aaf348e7c348",
+            "email": "1@hadi_10",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "5753b63f-a793-4d93-b319-c87874f705b1",
+            "email": "1@hadi_11",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "1ae1b5f3-c3a2-44b1-b933-9ce972bc7f2a",
+            "email": "1@hadi_12",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "177a9db2-eb0e-4bb0-b257-881f9764684c",
+            "email": "1@hadi_13",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "3b1d5241-51e7-4245-9267-19634eb992c7",
+            "email": "1@hadi_14",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "dff452ca-8c74-436a-a6d6-0c0d1ac001e0",
+            "email": "1@hadi_15",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "72c1751e-646f-4201-8dba-197038058e7c",
+            "email": "1@hadi_16",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "c7fc71b4-ee5c-4df7-86dc-2ddb32ded807",
+            "email": "1@hadi_17",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "02e5f460-2619-449e-b0fd-fec5b0bf3370",
+            "email": "1@hadi_18",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "2cc6f04f-77bb-4e13-92ca-9b30a6ccaeea",
+            "email": "1@hadi_19",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "50bfb951-9177-4183-b932-13d53f0d5050",
+            "email": "1@hadi_20",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "b561df3f-b240-46b7-bd43-05526e7803e1",
+            "email": "1@hadi_21",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "eef3e23c-921f-4266-8414-f82ff9c864f4",
+            "email": "1@hadi_22",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "9f6600b0-4dd2-40ef-ba84-0bdaf77659ba",
+            "email": "1@hadi_23",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "edfa3c3e-0577-4660-b646-cf76c075fb81",
+            "email": "1@hadi_24",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "aa56ac75-ae5d-475b-a3e8-56981e07eb90",
+            "email": "1@hadi_25",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "12aeddb1-0667-4742-bf36-2facb6dc222b",
+            "email": "1@hadi_26",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "c4e9bb18-d1c1-4d1a-8ef4-814f38e5ef04",
+            "email": "1@hadi_27",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "ae134e17-33fa-4122-b37e-d3d97bc46ba3",
+            "email": "1@hadi_28",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "a320f545-f906-4f65-8110-4cac19f91871",
+            "email": "1@hadi_29",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "8524fd27-34f7-43be-9463-090203a38e9d",
+            "email": "1@hadi_30",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "5e6d8754-f77d-4d35-b3d6-e66432db959d",
+            "email": "1@hadi_31",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "c2e12558-31cc-45d3-a5ba-9676658ab95f",
+            "email": "1@hadi_32",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "26e115bc-0ea6-44ec-bb09-451fb37a3cea",
+            "email": "1@hadi_33",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "ed6a354d-4563-4642-a057-4d185a9cc1c7",
+            "email": "1@hadi_34",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "202b3054-499c-4f46-8b95-3f1e27d79ac2",
+            "email": "1@hadi_35",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "0adfd999-6aaf-4245-bbf4-dda25a7d8b93",
+            "email": "1@hadi_36",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "9b53c6ed-39a0-410c-85df-c68b2cb8be57",
+            "email": "1@hadi_37",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "8eecb14c-0e86-46a7-acd6-ac5f4b730c69",
+            "email": "1@hadi_38",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "92c5f00f-fbc6-4236-a635-13c6c98be799",
+            "email": "1@hadi_39",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "bfcbc98e-fd79-4ee1-b2bc-86914bc76f5f",
+            "email": "1@hadi_40",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "8f916f06-a444-45a4-a6c6-39eb1f1acfc3",
+            "email": "1@hadi_41",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "59b5b0a7-817a-4e50-ad29-ca8a015cf971",
+            "email": "1@hadi_42",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "bba8a459-71dd-4c0e-845b-e6e2b53f4d5d",
+            "email": "1@hadi_43",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "7b4b7ae7-0ba1-4594-ae7e-82b6b8de4fd6",
+            "email": "1@hadi_44",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "c8fc27f0-2d88-4fe6-b99c-1f913e87bf62",
+            "email": "1@hadi_45",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "33f35790-727b-4746-8486-c42311a88861",
+            "email": "1@hadi_46",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "03a6cda7-7b4c-4165-97d9-c0680a0ea43a",
+            "email": "1@hadi_47",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "5ca49693-d0fd-4b22-a58e-2bdc20e7c65d",
+            "email": "1@hadi_48",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "52967df8-fb84-4e0d-9d84-1c8643916d4e",
+            "email": "1@hadi_49",
+            "level": 1,
+            "alterId": 0
+          },
+          {
+            "id": "43060317-b829-4ef2-995b-92afb9a7d4d0",
+            "email": "1@hadi_50",
+            "level": 1,
+            "alterId": 0
+          }
+        ],
+        "disableInsecureEncryption": true
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "auto",
+        "wsSettings": {
+          "path": "/user"
+        }
+      },
+      "tag": "wss-in"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    }
+  ],
+  "dns": {
+    "servers": [
+      "https+local://dns.google/dns-query",
+      "8.8.8.8",
+      "1.1.1.1",
+      "localhost"
+    ]
+  },
+  "policy": {
+    "levels": {
+      "0": {
+        "statsUserDownlink": true,
+        "statsUserUplink": true
+      }
+    },
+    "system": {
+      "statsInboundDownlink": true,
+      "statsInboundUplink": true
+    }
+  },
+  "routing": {
+    "rules": [
+      {
+        "inboundTag": [
+          "wss-in",
+          "ws-in"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api",
+        "type": "field"
+      }
+    ],
+    "strategy": "rules"
+  },
+  "transport": {
+    "kcpSettings": {
+      "uplinkCapacity": 100,
+      "downlinkCapacity": 100,
+      "congestion": true
+    }
+  },
+  "stats": {}
+}
