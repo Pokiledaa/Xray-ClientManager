@@ -5,6 +5,8 @@ import base64
 import qrcode
 import subprocess
 
+from stricker_watcher import StrickerWatcher
+
 
 
 
@@ -66,6 +68,18 @@ class ClientManager:
                 break
 
         return target_client
+
+    def get_client_email(self):
+
+        client_list: list = []
+
+        self._read_clients()    
+        for client in self.client_profiles:
+           client_list.append(client["email"])
+
+        return client_list
+
+
 
         
 
@@ -201,15 +215,20 @@ class ClientManager:
 
 
 def main():
-   system_conf = Config("conf.json")
+    system_conf = Config("conf.json")
 
-   client_manager = ClientManager(system_conf.xray_conf)
+    
+
+    client_manager = ClientManager(system_conf.xray_conf)
+
+
+    client_emials = client_manager.get_client_email()
 
 #    print(client_manager.get_client("1@salehzadeh_aida"))
 
 #    client_manager.add_user("2")
 
-   client_manager.add_user("2@091245585-parsa-oskouie-1401/5/8-1401/7/8")
+#   client_manager.add_user("2@091245585-parsa-oskouie-1401/5/8-1401/7/8")
    
 
 #    client_manager.get_clinet_property("2@mohammad")
@@ -218,6 +237,10 @@ def main():
 
    #client_manager.generate_qr(url,email)
 
+
+    watcher = StrickerWatcher(10)
+
+    watcher.count_ip_per_user(client_emials)
 
 
    
