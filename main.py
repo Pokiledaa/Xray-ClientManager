@@ -4,8 +4,12 @@ import json
 import base64
 import qrcode
 import subprocess
+import sys
+from argparse import ArgumentParser
 
 from stricker_watcher import StrickerWatcher
+
+
 
 
 
@@ -80,6 +84,25 @@ class ClientHandler :
 
         return url
 
+    def get_client_qrcode(self,email: str, url: str):
+        profile = self.get_client_profile(email)
+        image = qrcode.make(url)
+        image.save(profile["email"]+".PNG")
+
+
+
+class XrayHandler:
+    def __init__(self):
+        self.system_conf = Config("conf.json")
+        self.client_handler = ClientHandler(self.system_conf.xray_conf)
+        self.arguments = Argument()
+
+
+    def consol(self):
+        pass
+
+        
+
 
             
 
@@ -87,7 +110,19 @@ class ClientHandler :
         
 
 
-        
+
+class Argument :
+    def __init__(self) :
+        self.parser= ArgumentParser(description="<<Welcome TO the Xray-tools>>")
+        self.parser.add_argument("get",
+                        help="get the user vless profile url",
+                        type=int)
+
+                        
+        self.args =  self.parser.parse_args()
+
+        print(self.args.get)
+
 
             
         
@@ -286,11 +321,21 @@ class ClientManager:
 
 
 def main():
-    system_conf = Config("conf.json")
 
-    client_handler = ClientHandler(system_conf.xray_conf)
+    #email = "1@sina_11"
+    
+    arg = Argument()
+    #system_conf = Config("conf.json")
 
-    url = client_handler.get_client_url("3@mohammad","file.weareiran.space:443","zendegi 2 (UAE)")
+    #client_handler = ClientHandler(system_conf.xray_conf)
+
+    #url = client_handler.get_client_url(email,"db.weareiran.space:443","Zendegi 3")
+
+    #print(url)
+
+    #client_handler.get_client_qrcode(email,url)
+
+    
 
 
 
