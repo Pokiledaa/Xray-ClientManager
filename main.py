@@ -26,6 +26,77 @@ class Config:
         self.conf_file.close()
 
 
+class ClientHandler :
+    def __init__(
+        self,
+        xray_conf_dir,
+    ):
+        self.xray_conf_dir = xray_conf_dir
+
+
+       
+
+    def _read_json_conf(self):
+        js = None
+        with open(self.xray_conf_dir,"r") as xray_config :
+            js = json.load(xray_config)
+
+        return js
+
+    def _read_inbounds(self,js_conf)-> dict :
+        # TODO : Here We should choose beatwean Inbounds and check them
+        inbounds:dict = js_conf["inbounds"][0]
+        return inbounds
+
+    def read_clients(self,inbound)-> list:
+        clients: list = inbound["settings"]["clients"]
+        return clients
+
+    def read_client_emails(self,clients: list)-> list:
+        client_list: list = []
+        for client in clients :
+            client_list.append(client["email"])
+   
+        return client_list
+
+    def get_client_profile(self,email: str):
+        js = self._read_json_conf()
+        inbound = self._read_inbounds(js)
+        clients = self.read_clients(inbound)
+
+        profile: dict = {}
+
+        for client in clients :
+            if client["email"] == email :
+                profile = client
+                break
+
+        return profile
+
+    def get_client_url(self, email: str, domain: str, vpn_name: str):
+        profile = self.get_client_profile(email)
+
+        url: str = "vless://"+profile["id"]+"@"+domain+"?path=%2Fuser"+"&"+"security=none"+"&"+"encryption=none"+"&"+"type=ws"+"#"+vpn_name
+
+        return url
+
+
+            
+
+
+        
+
+
+        
+
+            
+        
+        
+
+
+
+
+
 
 class ClientManager:
     def __init__(
@@ -217,12 +288,20 @@ class ClientManager:
 def main():
     system_conf = Config("conf.json")
 
+    client_handler = ClientHandler(system_conf.xray_conf)
+
+    url = client_handler.get_client_url("3@mohammad","file.weareiran.space:443","zendegi 2 (UAE)")
+
+
+
+
+
     
 
-    client_manager = ClientManager(system_conf.xray_conf)
+    # client_manager = ClientManager(system_conf.xray_conf)
 
 
-    client_emials = client_manager.get_client_email()
+    # client_emials = client_manager.get_client_email()
 
 #    print(client_manager.get_client("1@salehzadeh_aida"))
 
@@ -238,9 +317,9 @@ def main():
    #client_manager.generate_qr(url,email)
 
 
-    watcher = StrickerWatcher(10)
+    # watcher = StrickerWatcher(10)
 
-    watcher.count_ip_per_user(client_emials)
+    # watcher.count_ip_per_user(client_emials)
 
 
    
