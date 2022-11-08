@@ -321,19 +321,19 @@ class ClientManager:
 
 
 def main():
-
-    #email = "1@sina_11"
+    # Put The ID HEREEEEEEEEEEEEEEEEEE
+    email = "1@sina_11"
     
-    arg = Argument()
-    #system_conf = Config("conf.json")
+    #arg = Argument()
+    system_conf = Config("conf.json")
 
-    #client_handler = ClientHandler(system_conf.xray_conf)
+    client_handler = ClientHandler(system_conf.xray_conf)
 
-    #url = client_handler.get_client_url(email,"db.weareiran.space:443","Zendegi 3")
+    url = client_handler.get_client_url(email,"db.weareiran.space:443","Zendegi 3")
 
-    #print(url)
+    print(url)
 
-    #client_handler.get_client_qrcode(email,url)
+    client_handler.get_client_qrcode(email,url)
 
     
 
