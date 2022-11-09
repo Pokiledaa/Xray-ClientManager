@@ -70,7 +70,7 @@ class ClientHandler :
 
 
     def generate_uuid(self)-> str:
-        temp = subprocess.check_output(['xray.exe', 'uuid'])
+        temp = subprocess.check_output(['xray', 'uuid'])
         uuid = temp.decode("utf-8").strip()
         return uuid
 
