@@ -11,6 +11,7 @@ class Argument :
         self.get_user_parser.add_argument("-n","--name",type=str)
 
         self.add_user_parser = self.sub_parser.add_parser("add",help="Adding The user to The Config File ")
+        self.add_user_parser.add_argument("raw",type=str)
 
 
     def start(self):

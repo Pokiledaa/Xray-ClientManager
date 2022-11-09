@@ -59,18 +59,27 @@ class XrayHandler:
 
 
             elif command == "add":
-                pass
+                raw_user: str=self.arguments.args.raw
+                connection_profile: list = raw_user.split("@")
+                profile = connection_profile[1].split("-")
+                if len(profile) != 5:
+                    print("Error Please Insert The User Correctly")
+                    exit()
+                else :
+                    self.client_handler.add_user(connection_profile[0],profile[0],profile[1]+" "+profile[2],profile[3],profile[4])
+                    
+                
             
 
 
 
 
 def main():    
-    #consol = XrayHandler()
-    #consol.consol_start()
-    conf = Config("conf.json")
-    client = ClientHandler(conf.xray_conf)
-    client.add_user(2,9122237423,"parsa oskouie", "1401/8/7",1)
+    consol = XrayHandler()
+    consol.consol_start()
+    # conf = Config("conf.json")
+    # client = ClientHandler(conf.xray_conf)
+    # client.add_user(2,9122237423,"parsa oskouie", "1401/8/7",1)
     
 
 if __name__ == "__main__":
