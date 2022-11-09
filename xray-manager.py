@@ -66,8 +66,12 @@ class XrayHandler:
 
 
 def main():    
-    consol = XrayHandler()
-    consol.consol_start()
+    #consol = XrayHandler()
+    #consol.consol_start()
+    conf = Config("conf.json")
+    client = ClientHandler(conf.xray_conf)
+    client.add_user(2,9122237423,"parsa oskouie", "1401/8/7",1)
+    
 
 if __name__ == "__main__":
     main()

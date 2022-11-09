@@ -18,6 +18,8 @@ class ClientHandler :
         with open(self.xray_conf_dir,"r") as xray_config :
             js = json.load(xray_config)
 
+        xray_config.close()
+
         return js
 
     def _read_inbounds(self,js_conf)-> dict :
@@ -65,6 +67,85 @@ class ClientHandler :
             image.save(image_name[0]+".PNG")
         elif len(image_name) == 5:
             image.save(image_name[1]+"-"+image_name[2]+".PNG")
+
+
+    def generate_uuid(self)-> str:
+        temp = subprocess.check_output(['xray.exe', 'uuid'])
+        uuid = temp.decode("utf-8").strip()
+        return uuid
+
+    def add_profile(self,max_conn: int,ph_numer: int,name: str,start_time: str,duration: int):
+        '''
+            Important Should Check if The User Already Exist or No 
+            Step That Should Be done Here : 
+            1 - Making The Email String FORMAT : | max_conn@phone_number-first_name-last_name-start_time_duration |
+            2 - Genrating The UUID Using The xray command line 
+            3 - making the desired Profile 
+            4 - reading the config file 
+            5 - appending the profile on it
+            6 - recreating the json file 
+            7 - closing the file
+            8 - systemctl restart the xray service
+            9 - getting the status 
+            10 - if the problem found redoing the thing and puting the prevoius config file
+        '''
+        # 1
+        max_conn = str(max_conn)
+        ph_numer = str(ph_numer)
+        duration = str(duration)
+        full_name = name.split(" ")
+        first_name = ""
+        last_name = ""
+        # 2 
+        id = self.generate_uuid()
+        if len(full_name) == 1:
+            first_name = full_name[0]
+            last_name = full_name[1]            
+        elif len(full_name) == 2 :
+            first_name = full_name[0]
+            last_name = full_name[1]
+        # 3
+        email:str = max_conn+"@"+ph_numer+"-"+first_name+"-"+last_name+"-"+start_time+"-"+duration
+        # Here we check if The User ALready Exist or Not
+        exsistance = self.get_client_profile(email)
+        if exsistance :
+            return 0
+
+        profile = {
+            "id": id,
+            "email": email,
+            "level": 1
+        }
+        # 4 
+        js = self._read_json_conf()
+        # 5
+        js["inbounds"][0]["settings"]["clients"].append(profile)
+        # 6
+        with open(self.xray_conf_dir,"w") as xray_config :
+            json.dump(js,xray_config,indent=4)
+        # 7
+        xray_config.close()
+        return 1
+
+    def add_user(self,max_conn: int,ph_numer: int,name: str,start_time: str,duration: int):
+        result = self.add_profile(max_conn, ph_numer ,name ,start_time ,duration)
+        if result :
+            print("INFO : User Added !!")
+        else :
+            print("User Already Exsist(Override)")
+
+
+        
+
+
+
+
+class OsTools:
+    def __init__(self):
+        self.command = "xray"
+
+
+
 
 
 
