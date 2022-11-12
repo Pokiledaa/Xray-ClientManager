@@ -13,6 +13,10 @@ class Argument :
         self.add_user_parser = self.sub_parser.add_parser("add",help="Adding The user to The Config File ")
         self.add_user_parser.add_argument("raw",type=str)
 
+        # Check For Stricker Menu
+        self.stricker_check_parser = self.sub_parser.add_parser("check",help="Checking For Stricker")
+        self.stricker_check_parser.add_argument("-w","--wait",type=int)
+
 
     def start(self):
         # here We Parse Our Args             

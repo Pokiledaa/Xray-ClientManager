@@ -4,6 +4,8 @@ from stricker_watcher import StrickerWatcher
 from user_managment import ClientHandler
 from consol import Argument
 import json
+import os
+from network_manager import NetworkManager
 
 
 class Config:
@@ -26,9 +28,12 @@ class XrayHandler:
         self.system_conf = Config("conf.json")
         self.client_handler = ClientHandler(self.system_conf.xray_conf)
         self.arguments = Argument()
+        self.watcher = StrickerWatcher(0)
 
 
     def consol_start(self):
+        #Ceating Log Direcotry
+        #self.creat_log_dir()
         self.arguments.start()
         # Here we Parse The Get User
         if self.arguments.args.command :
@@ -67,19 +72,35 @@ class XrayHandler:
                     exit()
                 else :
                     self.client_handler.add_user(connection_profile[0],profile[0],profile[1]+" "+profile[2],profile[3],profile[4])
+
+            elif command == "check":
+                interval= self.arguments.args.wait
+                self.watcher.check_period = interval
+                email_list = self.client_handler.get_clients_email_list()
+                self.watcher.stanalone_stricker_watcher(email_list)
+
+                
                     
+
+    def creat_log_dir(self):
+        os.mkdir("log")
                 
             
 
 
 
 
-def main():    
+def main():   
+    #network = NetworkManager()
+
     consol = XrayHandler()
     consol.consol_start()
     # conf = Config("conf.json")
     # client = ClientHandler(conf.xray_conf)
-    # client.add_user(2,9122237423,"parsa oskouie", "1401/8/7",1)
+    # email_list = client.get_clients_email_list()
+
+    # watcher = StrickerWatcher(10)
+    # watcher.stanalone_stricker_watcher(email_list)
     
 
 if __name__ == "__main__":

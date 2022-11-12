@@ -38,6 +38,19 @@ class ClientHandler :
    
         return client_list
 
+    # This Function Returns The List of The Config file Emails
+    def get_clients_email_list(self):
+        client_list: list = []
+        js = self._read_json_conf()
+        inbound = self._read_inbounds(js)
+        clients = self.read_clients(inbound)
+        for client in clients :
+            client_list.append(client["email"])
+        
+        return client_list
+        
+
+
     def get_client_profile(self,email: str):
         js = self._read_json_conf()
         inbound = self._read_inbounds(js)
