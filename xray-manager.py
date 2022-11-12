@@ -20,9 +20,6 @@ class Config:
         self.conf_dict = json.loads(self.conf_file.read()) 
         self.xray_conf = self.conf_dict["XRAY_CONF"]
         self.access_dir = self.conf_dict["ACCESS_DIR"]
-
-        print(self.access_dir)
-
         self.conf_file.close()
 
 

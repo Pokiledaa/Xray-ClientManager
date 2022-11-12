@@ -77,6 +77,7 @@ class StrickerWatcher:
 
         while True:
             
+            os.system("> "+self.access_dir)
             time.sleep(self.check_period)
 
             striker_list , connection = self.count_ip_per_user(emails)
