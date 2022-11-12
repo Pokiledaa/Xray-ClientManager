@@ -1,5 +1,6 @@
 import time
 from re import search
+import os
 # ACCESS_LOG_DIR = ""
 
 
@@ -8,15 +9,17 @@ class StrickerWatcher:
     def __init__ (
         self,
         check_period,
+        access_dir,
     ):
         # how often The Watcher Should Loock after strickers
         self.check_period = check_period
+        self.access_dir = access_dir
         
 
 
     def reading_client_logs (self) ->list:
        
-        fd = open("access.log","r") 
+        fd = open(self.access_dir,"r") 
         # for counter in range(100):
         lines: list = fd.read().splitlines()
         fd.close()
@@ -69,11 +72,11 @@ class StrickerWatcher:
         return (stricker_list , connection_status)
 
     
-    def stanalone_stricker_watcher(self, emails:list ):
+    def stanalone_stricker_watcher(self, emails: list):
 
 
         while True:
-
+            
             time.sleep(self.check_period)
 
             striker_list , connection = self.count_ip_per_user(emails)

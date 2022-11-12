@@ -1,3 +1,4 @@
 {
-    "XRAY_CONF": "/usr/local/etc/xray/config.json"
+    "XRAY_CONF": "/usr/local/etc/xray/config.json",
+    "ACCESS_DIR": "/var/log/xray/access.log"
 }

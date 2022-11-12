@@ -19,6 +19,9 @@ class Config:
         self.conf_file = open(self.conf_dir,"r")
         self.conf_dict = json.loads(self.conf_file.read()) 
         self.xray_conf = self.conf_dict["XRAY_CONF"]
+        self.access_dir = self.conf_dict["ACCESS_DIR"]
+
+        print(self.access_dir)
 
         self.conf_file.close()
 
@@ -28,7 +31,7 @@ class XrayHandler:
         self.system_conf = Config("conf.json")
         self.client_handler = ClientHandler(self.system_conf.xray_conf)
         self.arguments = Argument()
-        self.watcher = StrickerWatcher(0)
+        self.watcher = StrickerWatcher(0,self.system_conf.access_dir)
 
 
     def consol_start(self):
