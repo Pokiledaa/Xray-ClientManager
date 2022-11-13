@@ -87,7 +87,7 @@ class ClientHandler :
         uuid = temp.decode("utf-8").strip()
         return uuid
 
-    def add_profile(self,max_conn: int,ph_numer: int,name: str,start_time: str,duration: int):
+    def add_profile(self,max_conn: int,ph_numer: str,name: str,start_time: str,duration: int):
         '''
             Important Should Check if The User Already Exist or No 
             Step That Should Be done Here : 
@@ -104,7 +104,6 @@ class ClientHandler :
         '''
         # 1
         max_conn = str(max_conn)
-        ph_numer = str(ph_numer)
         duration = str(duration)
         full_name = name.split(" ")
         first_name = ""

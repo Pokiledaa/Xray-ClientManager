@@ -66,6 +66,9 @@ class XrayHandler:
             elif command == "add":
                 raw_user: str=self.arguments.args.raw
                 connection_profile: list = raw_user.split("@")
+                if len(connection_profile) == 1 :
+                    print("Error Please Insert The User Device Connectivity |x@|")
+                    exit()
                 profile = connection_profile[1].split("-")
                 if len(profile) != 5:
                     print("Error Please Insert The User Correctly")
