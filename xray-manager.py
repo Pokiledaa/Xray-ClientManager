@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from stricker_watcher import StrickerWatcher
-from user_managment import ClientHandler
+from user_managment import ClientHandler,OsTools
 from consol import Argument
 import json
 import os
@@ -81,6 +81,11 @@ class XrayHandler:
                     exit()
                 else :
                     self.client_handler.add_user(connection_profile[0],profile[0],profile[1]+" "+profile[2],profile[3],profile[4])
+                    # Here we Apply Changes if The Users specify it
+                    if self.arguments.args.apply :
+                        print("appliedddd")
+                        # self.client_handler.apply_changes()
+                    
 
             elif command == "check":
                 interval= self.arguments.args.wait
@@ -102,8 +107,10 @@ def main():
     #network = NetworkManager()
 
 
-    consol = XrayHandler()
-    consol.consol_start()
+    # consol = XrayHandler()
+    # consol.consol_start()
+    tools = OsTools()
+    print(tools.status_xray())
     # conf = Config("conf.json")
     # client = ClientHandler(conf.xray_conf)
     # old_uuid = client.unvdsalidate_user("1@hadi_7")

@@ -2,6 +2,7 @@ import qrcode
 import json
 import subprocess
 import base64
+from re import search
 from statics import UNVALID_UUID,Directories
 
 class ClientHandler :
@@ -11,6 +12,7 @@ class ClientHandler :
     ):
         self.xray_conf_dir = xray_conf_dir
         self._creat_banned_client_file()
+        self.os_tools = OsTools()
 
 
     def _creat_banned_client_file(self):
@@ -148,6 +150,15 @@ class ClientHandler :
         xray_config.close()
         return 1
 
+    def apply_changes(self):
+        self.os_tools.restart_xray()
+        status = self.os_tools.status_xray()
+        if status :
+            print("Chaned Applied Succesfully")
+        else :
+            print("Error With The Config File check => xray config.json file and restart service")
+            exit()
+
     def add_user(self,max_conn: int,ph_numer: str,name: str,start_time: str,duration: int):
         result = self.add_profile(max_conn, ph_numer ,name ,start_time ,duration)
         if result :
@@ -201,6 +212,18 @@ class ClientHandler :
 class OsTools:
     def __init__(self):
         self.command = "xray"
+
+    def restart_xray(self):
+        subprocess.check_output(f"systemctl restart {self.command}", shell=True)
+    
+    def status_xray(self):
+        status = subprocess.check_output(f"systemctl status {self.command}", shell=True)
+        str_status = status.decode()
+        if str_status.find("Active: active (running)") != -1 :
+            return True
+        else :
+            return False
+
 
 
 
