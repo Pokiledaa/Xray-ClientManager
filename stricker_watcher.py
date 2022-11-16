@@ -90,8 +90,6 @@ class StrickerWatcher:
             for stricker in striker_list:
                 stricker_current_conn = stricker["current_conn"]
                 stricker_max_conn = stricker["max_conn"]
-                print(type(stricker_current_conn))
-                print(type(stricker_max_conn))
                 print(f"Stricker : \r\n{stricker}")
                 # here we will banned the users if banned_on is True 
                 if self.banning_on :
