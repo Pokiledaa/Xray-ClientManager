@@ -96,7 +96,7 @@ class StrickerWatcher:
                     if stricker_current_conn > stricker_max_conn+1 :
                         stricker_email = stricker["email"]
                         old_id = client_handler.unvalidate_user(stricker_email)
-                        self.create_banned_profile(stricker_email,old_id)
+                        self.create_banned_profile_file(stricker_email,old_id)
                         banned_list.append(stricker_email)
 
             print("----------------------------------------------------------------------------------")
@@ -115,10 +115,22 @@ class StrickerWatcher:
             print(f"Connection Status : {curr_conn}/{max_conn}")
 
 
-    def create_banned_profile(self, email: str, old_id: str):
+    def create_banned_profile_file(self, email: str, old_id: str):
         with open(Directories.BANNED_DIR,"a") as fd:
             fd.writelines(f"{email} {old_id}\n")
             fd.close()
+
+    def create_stricker_profile_file(self, stricker_list: list, connection_status :dict):
+        curr_conn = connection_status["current_connection"]
+        max_conn = connection_status["max_connection"]
+        with open(Directories.STRICKER_DIR,"a") as f:
+            f.write("------------------STRICKR-------------------\n")
+            for stricker in stricker_list :
+                f.write(f"{stricker}\n")
+            f.write("---------------TOTAL CONNECTION-------------\n")
+            f.write(f"Connection Status : {curr_conn}/{max_conn}")
+
+
 
                 
             
