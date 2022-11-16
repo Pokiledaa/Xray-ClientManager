@@ -4,6 +4,8 @@ from statics import Directories
 
 
 
+
+
 # Making program required Direcory 
 os.mkdir(Directories.LOG_DIR)
 #Creating The Sticker File
