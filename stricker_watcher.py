@@ -98,7 +98,7 @@ class StrickerWatcher:
                         old_id = client_handler.unvalidate_user(stricker_email)
                         self.create_banned_profile_file(stricker_email,old_id)
                         banned_list.append(stricker_email)
-
+            self.create_stricker_profile_file(striker_list, connection)
             print("----------------------------------------------------------------------------------")
             if self.banning_on :
                 print("------------------------------------BANNED----------------------------------------")
@@ -128,7 +128,7 @@ class StrickerWatcher:
             for stricker in stricker_list :
                 f.write(f"{stricker}\n")
             f.write("---------------TOTAL CONNECTION-------------\n")
-            f.write(f"Connection Status : {curr_conn}/{max_conn}")
+            f.write(f"Connection Status : {curr_conn}/{max_conn}\n")
 
 
 
