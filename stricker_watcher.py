@@ -108,6 +108,8 @@ class StrickerWatcher:
                 else:
                     print("None")
                 print("----------------------------------------------------------------------------------")
+                # Here we apply The Changes on the Detected Stricker
+                client_handler.apply_changes()
 
 
                     

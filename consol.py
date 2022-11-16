@@ -17,6 +17,11 @@ class Argument :
         # Check For Stricker Menu
         self.stricker_check_parser = self.sub_parser.add_parser("check",help="Checking For Stricker")
         self.stricker_check_parser.add_argument("-w","--wait",type=int)
+        # Apply changes on Xray Menu
+        self.apply_parser = self.sub_parser.add_parser("apply",help="Applying Changes On the Xray Config File")
+        # Unvalidate The Client Menu
+        self.uvvalidator_parser = self.sub_parser.add_parser("unvalidate",help="Unvalidate The Client")
+
 
 
     def start(self):

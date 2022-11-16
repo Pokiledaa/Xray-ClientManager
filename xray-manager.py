@@ -83,8 +83,7 @@ class XrayHandler:
                     self.client_handler.add_user(connection_profile[0],profile[0],profile[1]+" "+profile[2],profile[3],profile[4])
                     # Here we Apply Changes if The Users specify it
                     if self.arguments.args.apply :
-                        print("appliedddd")
-                        # self.client_handler.apply_changes()
+                        self.client_handler.apply_changes()
                     
 
             elif command == "check":
@@ -95,6 +94,13 @@ class XrayHandler:
                 self.watcher.check_period = interval
                 email_list = self.client_handler.get_clients_email_list()
                 self.watcher.stanalone_stricker_watcher(email_list, self.client_handler)
+            # here Parse The Command For Apply changes on Xray
+            elif command == "apply" :
+                self.client_handler.apply_changes()
+
+            elif command == "unvalidate" : 
+                print("Not Implemented Yet")
+                
 
                 
 
@@ -107,10 +113,8 @@ def main():
     #network = NetworkManager()
 
 
-    # consol = XrayHandler()
-    # consol.consol_start()
-    tools = OsTools()
-    print(tools.status_xray())
+    consol = XrayHandler()
+    consol.consol_start()
     # conf = Config("conf.json")
     # client = ClientHandler(conf.xray_conf)
     # old_uuid = client.unvdsalidate_user("1@hadi_7")
