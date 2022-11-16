@@ -1,6 +1,8 @@
 import time
 from re import search
 import os
+from statics import Directories
+from user_managment import ClientHandler
 # ACCESS_LOG_DIR = ""
 
 
@@ -14,6 +16,7 @@ class StrickerWatcher:
         # how often The Watcher Should Loock after strickers
         self.check_period = check_period
         self.access_dir = access_dir
+        self.banning_on = True
         
 
 
@@ -72,35 +75,49 @@ class StrickerWatcher:
         return (stricker_list , connection_status)
 
     
-    def stanalone_stricker_watcher(self, emails: list):
-
-
+    def stanalone_stricker_watcher(self, emails: list, client_handler: ClientHandler):
+   
         while True:
-            
+            banned_list:list = []
             os.system("> "+self.access_dir)
             time.sleep(self.check_period)
 
             striker_list , connection = self.count_ip_per_user(emails)
             curr_conn = connection["current_connection"]
             max_conn = connection["max_connection"]
-
+            print("-----------------------------------STRICKERS--------------------------------------")
             for stricker in striker_list:
+                stricker_current_conn = stricker["current_conn"]
+                stricker_max_conn = stricker["max_conn"]
+                print(type(stricker_current_conn))
+                print(type(stricker_max_conn))
                 print(f"Stricker : \r\n{stricker}")
-                
-            print(f"Connection Status : {curr_conn}/{max_conn}")
-        
+                # here we will banned the users if banned_on is True 
+                if self.banning_on :
+                    if stricker_current_conn > stricker_max_conn+1 :
+                        stricker_email = stricker["email"]
+                        old_id = client_handler.unvalidate_user(stricker_email)
+                        self.create_banned_profile(stricker_email,old_id)
+                        banned_list.append(stricker_email)
+            print("----------------------------------------------------------------------------------")
+            print("------------------------------------BANNED----------------------------------------")
+            if len(banned_list) != 0 :
+                for banned in banned_list :
+                    print(banned)
+            else:
+                print("None")
+            print("----------------------------------------------------------------------------------")
 
-        
 
                     
-
-        # for email in emails:
-        #     for line in lines:
-        #         splited_line=line.split(" ")
+                
+            print(f"Connection Status : {curr_conn}/{max_conn}")
 
 
-    def _find_ip_per_user(self, line: str) :
-        pass
+    def create_banned_profile(self, email: str, old_id: str):
+        with open(Directories.BANNED_DIR,"a") as fd:
+            fd.writelines(f"{email} {old_id}\n")
+            fd.close()
 
                 
             

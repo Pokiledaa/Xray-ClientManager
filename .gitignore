@@ -3,3 +3,4 @@ __pycache__/
 access.log
 config.json
 xray.exe
+log

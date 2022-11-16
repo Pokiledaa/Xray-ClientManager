@@ -6,6 +6,7 @@ from consol import Argument
 import json
 import os
 from network_manager import NetworkManager
+from time import sleep
 
 
 class Config:
@@ -80,14 +81,10 @@ class XrayHandler:
                 interval= self.arguments.args.wait
                 self.watcher.check_period = interval
                 email_list = self.client_handler.get_clients_email_list()
-                self.watcher.stanalone_stricker_watcher(email_list)
+                self.watcher.stanalone_stricker_watcher(email_list, self.client_handler)
 
                 
-                    
 
-    def creat_log_dir(self):
-        os.mkdir("log")
-                
             
 
 
@@ -96,11 +93,13 @@ class XrayHandler:
 def main():   
     #network = NetworkManager()
 
+
     consol = XrayHandler()
     consol.consol_start()
     # conf = Config("conf.json")
     # client = ClientHandler(conf.xray_conf)
-    # email_list = client.get_clients_email_list()
+    # old_uuid = client.unvdsalidate_user("1@hadi_7")
+    # print(old_uuid)
 
     # watcher = StrickerWatcher(10)
     # watcher.stanalone_stricker_watcher(email_list)

@@ -2,6 +2,7 @@ import qrcode
 import json
 import subprocess
 import base64
+from statics import UNVALID_UUID,Directories
 
 class ClientHandler :
     def __init__(
@@ -9,6 +10,14 @@ class ClientHandler :
         xray_conf_dir,
     ):
         self.xray_conf_dir = xray_conf_dir
+        self._creat_banned_client_file()
+
+
+    def _creat_banned_client_file(self):
+        banned_file =  open( Directories.BANNED_DIR,"w")
+        banned_file.close()
+
+
 
 
        
@@ -139,12 +148,49 @@ class ClientHandler :
         xray_config.close()
         return 1
 
-    def add_user(self,max_conn: int,ph_numer: int,name: str,start_time: str,duration: int):
+    def add_user(self,max_conn: int,ph_numer: str,name: str,start_time: str,duration: int):
         result = self.add_profile(max_conn, ph_numer ,name ,start_time ,duration)
         if result :
             print("INFO : User Added !!")
         else :
             print("User Already Exsist(Override)")
+
+    def modify_user(self,email: str,id: str="",device: int = 0):
+        # Checking for User Existance if True Continue
+        exsistance = self.get_client_profile(email)
+        if not exsistance :
+            print("User Doesnt Exist to Be modified Please creat The User First")
+            return 0
+        # reading The Cnnfig File 
+        js = self._read_json_conf()
+        # Finding The User in array of users .
+        for client in js["inbounds"][0]["settings"]["clients"]:
+            if client["email"] == email:
+                # Changing device Quantity
+                if device != 0:
+                    parsed_email = email.split("@")
+                    parsed_email[0] = str(device)
+                    new_email = parsed_email[0]+"@"+parsed_email[1]
+                    client["email"] = new_email
+                if id != "":   
+                    client["id"] = id
+
+        with open(self.xray_conf_dir,"w") as xray_config :
+            json.dump(js,xray_config,indent=4)
+
+        return exsistance
+               
+
+
+    # This Function Returnes The old uuid
+    def unvalidate_user(self, email: str) :
+        result = self.modify_user(email,id=UNVALID_UUID)
+        if result == 0:
+            exit()
+        else:
+           return result["id"]
+
+
 
 
         
