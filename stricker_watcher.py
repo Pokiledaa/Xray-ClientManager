@@ -12,11 +12,12 @@ class StrickerWatcher:
         self,
         check_period,
         access_dir,
+        bannig_on,
     ):
         # how often The Watcher Should Loock after strickers
         self.check_period = check_period
         self.access_dir = access_dir
-        self.banning_on = True
+        self.banning_on = bannig_on
         
 
 
@@ -99,14 +100,16 @@ class StrickerWatcher:
                         old_id = client_handler.unvalidate_user(stricker_email)
                         self.create_banned_profile(stricker_email,old_id)
                         banned_list.append(stricker_email)
+
             print("----------------------------------------------------------------------------------")
-            print("------------------------------------BANNED----------------------------------------")
-            if len(banned_list) != 0 :
-                for banned in banned_list :
-                    print(banned)
-            else:
-                print("None")
-            print("----------------------------------------------------------------------------------")
+            if self.banning_on :
+                print("------------------------------------BANNED----------------------------------------")
+                if len(banned_list) != 0 :
+                    for banned in banned_list :
+                        print(banned)
+                else:
+                    print("None")
+                print("----------------------------------------------------------------------------------")
 
 
                     

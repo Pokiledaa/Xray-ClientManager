@@ -1,4 +1,5 @@
 {
     "XRAY_CONF": "config.json",
-    "ACCESS_DIR": "access.log"
+    "ACCESS_DIR": "access.log",
+    "BANNING_ON": true
 }

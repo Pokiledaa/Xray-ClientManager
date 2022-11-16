@@ -21,6 +21,7 @@ class Config:
         self.conf_dict = json.loads(self.conf_file.read()) 
         self.xray_conf = self.conf_dict["XRAY_CONF"]
         self.access_dir = self.conf_dict["ACCESS_DIR"]
+        self.banning_on = self.conf_dict["BANNING_ON"]
         self.conf_file.close()
 
 
@@ -29,7 +30,11 @@ class XrayHandler:
         self.system_conf = Config("conf.json")
         self.client_handler = ClientHandler(self.system_conf.xray_conf)
         self.arguments = Argument()
-        self.watcher = StrickerWatcher(0,self.system_conf.access_dir)
+        # Configuration For Stricker Watcher
+        self.watcher = StrickerWatcher(check_period=0,
+            access_dir= self.system_conf.access_dir,
+            bannig_on= self.system_conf.banning_on
+            )
 
 
     def consol_start(self):
@@ -79,6 +84,9 @@ class XrayHandler:
 
             elif command == "check":
                 interval= self.arguments.args.wait
+                # To make sure That the Time Has a deafault value
+                if interval == None :
+                    interval = 50 
                 self.watcher.check_period = interval
                 email_list = self.client_handler.get_clients_email_list()
                 self.watcher.stanalone_stricker_watcher(email_list, self.client_handler)
