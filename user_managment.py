@@ -11,17 +11,7 @@ class ClientHandler :
         xray_conf_dir,
     ):
         self.xray_conf_dir = xray_conf_dir
-        self._creat_banned_client_file()
         self.os_tools = OsTools()
-
-
-    def _creat_banned_client_file(self):
-        banned_file =  open( Directories.BANNED_DIR,"w")
-        banned_file.close()
-
-
-
-
        
 
     def _read_json_conf(self):

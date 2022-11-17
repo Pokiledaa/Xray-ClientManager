@@ -1,0 +1,14 @@
+[Unit]
+Description=xray-manager tools
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/root/Xray-ClientManager
+ExecStart=/usr/bin/python3 /root/Xray-ClientManager/xray-manager.py check -w 60
+
+[Install]
+WantedBy=multi-user.target
+
+

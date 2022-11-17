@@ -17,17 +17,16 @@ class Config:
 
         self.conf_dir = conf_dir
         
-        self.conf_file = open(self.conf_dir,"r")
-        self.conf_dict = json.loads(self.conf_file.read()) 
-        self.xray_conf = self.conf_dict["XRAY_CONF"]
-        self.access_dir = self.conf_dict["ACCESS_DIR"]
-        self.banning_on = self.conf_dict["BANNING_ON"]
-        self.conf_file.close()
+        with open(self.conf_dir,"r") as f :
+            self.conf_dict = json.loads(f.read()) 
+            self.xray_conf = self.conf_dict["XRAY_CONF"]
+            self.access_dir = self.conf_dict["ACCESS_DIR"]
+            self.banning_on = self.conf_dict["BANNING_ON"]
 
 
 class XrayHandler:
     def __init__(self):
-        self.system_conf = Config("conf.json")
+        self.system_conf = Config("/root/Xray-ClientManager/conf.json")
         self.client_handler = ClientHandler(self.system_conf.xray_conf)
         self.arguments = Argument()
         # Configuration For Stricker Watcher

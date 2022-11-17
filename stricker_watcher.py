@@ -87,6 +87,8 @@ class StrickerWatcher:
             curr_conn = connection["current_connection"]
             max_conn = connection["max_connection"]
             print("-----------------------------------STRICKERS--------------------------------------")
+            if len(striker_list) == 0 :
+                print("None")
             for stricker in striker_list:
                 stricker_current_conn = stricker["current_conn"]
                 stricker_max_conn = stricker["max_conn"]
@@ -96,7 +98,7 @@ class StrickerWatcher:
                     if stricker_current_conn > stricker_max_conn+1 :
                         stricker_email = stricker["email"]
                         old_id = client_handler.unvalidate_user(stricker_email)
-                        self.create_banned_profile_file(stricker_email,old_id)
+                        self.create_banned_profile_file(stricker_email,old_id,stricker_current_conn)
                         banned_list.append(stricker_email)
             self.create_stricker_profile_file(striker_list, connection)
             print("----------------------------------------------------------------------------------")
@@ -108,8 +110,9 @@ class StrickerWatcher:
                 else:
                     print("None")
                 print("----------------------------------------------------------------------------------")
-                # Here we apply The Changes on the Detected Stricker
-                client_handler.apply_changes()
+                # Here we apply The Changes on the Detected Stricker if exsist
+                if len(banned_list) :
+                    client_handler.apply_changes()
 
 
                     
@@ -117,9 +120,9 @@ class StrickerWatcher:
             print(f"Connection Status : {curr_conn}/{max_conn}")
 
 
-    def create_banned_profile_file(self, email: str, old_id: str):
+    def create_banned_profile_file(self, email: str, old_id: str, strike_time: int):
         with open(Directories.BANNED_DIR,"a") as fd:
-            fd.writelines(f"{email} {old_id}\n")
+            fd.writelines(f"{email} {old_id} {strike_time}\n")
             fd.close()
 
     def create_stricker_profile_file(self, stricker_list: list, connection_status :dict):
