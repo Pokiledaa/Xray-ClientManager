@@ -3,7 +3,7 @@ from re import search
 import os
 from statics import Directories
 from user_managment import ClientHandler
-# ACCESS_LOG_DIR = ""
+from informer import Informer
 
 
 
@@ -18,6 +18,7 @@ class StrickerWatcher:
         self.check_period = check_period
         self.access_dir = access_dir
         self.banning_on = bannig_on
+        self.informer = Informer()
         
 
 
@@ -93,7 +94,6 @@ class StrickerWatcher:
                 stricker_current_conn = stricker["current_conn"]
                 stricker_max_conn = stricker["max_conn"]
                 print(f"Stricker : \r\n{stricker}")
-                # here we will banned the users if banned_on is True 
                 if self.banning_on :
                     if stricker_current_conn > stricker_max_conn+1 :
                         stricker_email = stricker["email"]
@@ -112,6 +112,8 @@ class StrickerWatcher:
                 print("----------------------------------------------------------------------------------")
                 # Here we apply The Changes on the Detected Stricker if exsist
                 if len(banned_list) :
+                    # here we will banned the users if banned_on is True 
+                    # self.informer.inform_admin(banned_list)
                     client_handler.apply_changes()
 
 
