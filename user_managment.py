@@ -181,13 +181,19 @@ class ClientHandler :
             json.dump(js,xray_config,indent=4)
 
         return exsistance
+
+    def unvalidate_banned_user(self, email: str):
+        result = self.modify_user(email,id=UNVALID_UUID) 
+        if result == 0:
+            exit()
+        else:
+            print("user banned Unvalidated")
+            return result["id"]
+
                
-
-
     # This Function Returnes The old uuid
     def unvalidate_user(self, email: str) :
         result = self.modify_user(email,id=UNVALID_UUID)
-        
         if result == 0:
             exit()
         else:

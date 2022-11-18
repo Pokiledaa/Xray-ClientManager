@@ -95,9 +95,10 @@ class StrickerWatcher:
                 stricker_max_conn = stricker["max_conn"]
                 print(f"Stricker : \r\n{stricker}")
                 if self.banning_on :
-                    if stricker_current_conn > stricker_max_conn+1 :
+                    # Here we calculate for 3 more connection for strickers
+                    if stricker_current_conn > stricker_max_conn+2 :
                         stricker_email = stricker["email"]
-                        old_id = client_handler.unvalidate_user(stricker_email)
+                        old_id = client_handler.unvalidate_banned_user(stricker_email)
                         self.create_banned_profile_file(stricker_email,old_id,stricker_current_conn)
                         banned_list.append(stricker_email)
             self.create_stricker_profile_file(striker_list, connection)
