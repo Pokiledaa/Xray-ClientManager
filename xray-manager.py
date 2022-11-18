@@ -98,7 +98,14 @@ class XrayHandler:
                 self.client_handler.apply_changes()
 
             elif command == "unvalidate" : 
-                print("Not Implemented Yet")
+                email = self.arguments.args.email
+                self.client_handler.unvalidate_user(email)
+                self.client_handler.apply_changes()
+
+            elif command == "validate":
+                email = self.arguments.args.email
+                self.client_handler.validate_user(email)
+                self.client_handler.apply_changes()
                 
 
                 
@@ -109,18 +116,10 @@ class XrayHandler:
 
 
 def main():   
-    #network = NetworkManager()
-
-
     consol = XrayHandler()
     consol.consol_start()
     # conf = Config("conf.json")
     # client = ClientHandler(conf.xray_conf)
-    # old_uuid = client.unvdsalidate_user("1@hadi_7")
-    # print(old_uuid)
-
-    # watcher = StrickerWatcher(10)
-    # watcher.stanalone_stricker_watcher(email_list)
     
 
 if __name__ == "__main__":

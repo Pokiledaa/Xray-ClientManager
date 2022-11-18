@@ -7,11 +7,29 @@ from statics import Directories
 
 
 # Making program required Direcory 
-os.mkdir(Directories.LOG_DIR)
+try:
+    os.mkdir(Directories.LOG_DIR)
+    print(f"{Directories.LOG_DIR} Created!!")
+except FileExistsError :
+    print(f"{Directories.LOG_DIR} Already Exsist")
+
 #Creating The Sticker File
-with open(Directories.STRICKER_DIR,"x") as s_f:
-    pass
+try :
+    with open(Directories.STRICKER_DIR,"x") as s_f:
+        print(f"{Directories.STRICKER_DIR} Created!!")
+except FileExistsError :
+    print(f"{Directories.STRICKER_DIR} Already Exsist")
 
 #Creating The Banned File
-with open(Directories.BANNED_DIR,"x") as b_f:
-    pass
+try :
+    with open(Directories.BANNED_DIR,"x") as b_f:
+        print(f"{Directories.BANNED_DIR} Created!!")
+except FileExistsError:
+    print(f"{Directories.BANNED_DIR} Already Exsist")
+
+#Creating The unvalidated File
+try:
+    with open(Directories.UNVALIDATED,"x") as u_f:
+        print(f"{Directories.UNVALIDATED} Created!!")
+except FileExistsError :
+    print(f"{Directories.UNVALIDATED} Already Exsist")

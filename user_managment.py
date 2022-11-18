@@ -144,7 +144,7 @@ class ClientHandler :
         self.os_tools.restart_xray()
         status = self.os_tools.status_xray()
         if status :
-            print("Chaned Applied Succesfully")
+            print("Change Applied Succesfully")
         else :
             print("Error With The Config File check => xray config.json file and restart service")
             exit()
@@ -173,6 +173,7 @@ class ClientHandler :
                     parsed_email[0] = str(device)
                     new_email = parsed_email[0]+"@"+parsed_email[1]
                     client["email"] = new_email
+                # changing the id of the user
                 if id != "":   
                     client["id"] = id
 
@@ -186,10 +187,171 @@ class ClientHandler :
     # This Function Returnes The old uuid
     def unvalidate_user(self, email: str) :
         result = self.modify_user(email,id=UNVALID_UUID)
+        
         if result == 0:
             exit()
         else:
+            # Writtimg The Unvalidated User Into The Unvalidated File
+            with open(Directories.UNVALIDATED,"a") as f :
+                old_id = result["id"]
+                f.write(f"{email} {old_id}\n")
+
+            print("user Unvalidated")
             return result["id"]
+
+    # This Function handles the unvalidated users and valiate them again
+    def validate_user(self,email: str):
+        '''
+            Here We have 2 approach for the Validate user :
+            user counld be one of this group :
+            1 - unvalidated user 
+            2 - banned user
+            3 - None of this groups
+        '''
+        uuid_banned = self._is_client_banned(email)
+        uuid_unvalid = self._is_client_unvalidated(email)
+        # check for banned person to validate
+        if len(uuid_banned) and len(uuid_unvalid) == 0 :
+            #TODO we need to check it from config.json too
+            self._remove_banned_client_from_file(email)
+            self.modify_user(email= email,id= uuid_banned)
+            print("Banned Client Validated Succesfully")
+        # check for unvalidates person to validate
+        if len(uuid_banned) ==0 and len(uuid_unvalid) :
+            self._remove_unvalidate_client_from_file(email)
+            self.modify_user(email= email,id= uuid_unvalid)
+            print("Unvalidated Client Validated Succesfully")
+
+        # here is expection if user not banned or unvalidated is deleted or unvalidated by hand
+        if len(uuid_banned) == 0 and len(uuid_unvalid) == 0 :
+            print("Desired Client doesnt found in Banned or Unvalidated files")
+
+        
+            
+
+
+
+        # 1 Opening The banned Users 
+        # banne_lines = []
+        # unvalidated_lines = []
+        # banned_client = False 
+        # unvalidated_client = False
+        # unvalidated_write_enable = False
+        # with open(Directories.BANNED_DIR,"r") as f:
+        #     banne_lines = f.read().splitlines()
+        #     for line in banne_lines : 
+        #         splited_line = line.split(" ")
+        #         if splited_line[0] == email:
+        #             banned_client = True
+        #             unvalidated_client = False
+        #             # removing the banned client from the list
+        #             banne_lines.remove(line)
+        #             # here we Modify the user in config.json
+        #             self.modify_user(email=email,id=splited_line[1])
+        #             print("user validated again")
+        #             self.apply_changes()
+        #         else :
+        #             banned_client = False
+        #             unvalidated_client = True
+
+        # if (banned_client == True) and (unvalidated_client == False) :
+        #     # rewriting the file again for commiting  The Changes
+        #     with open(Directories.BANNED_DIR,"w") as f :
+        #         for line in banne_lines:
+        #             f.write(line+"\n") 
+        # if (banned_client == False) and (unvalidated_client == True) :
+        #     print("IM HEREEEEEEEEEE")
+        #     # here we check for unvalidated user not banned one
+        #     with open(Directories.UNVALIDATED,"r") as f:
+        #         unvalidated_lines = f.read().splitlines()
+        #         for line in unvalidated_lines : 
+        #             splited_line = line.split(" ")
+        #             if splited_line[0] == email:
+        #                 print("FINIEEDDDD")
+        #                 banned_client = False
+        #                 unvalidated_client = True
+        #                 unvalidated_write_enable = True
+        #                 # removing the unvalidated client from the list
+        #                 unvalidated_lines.remove(line)
+        #                 self.modify_user(email=email,id=splited_line[1])
+        #                 print("user validated again")
+        #                 self.apply_changes()
+
+        #     if unvalidated_write_enable :
+        #         with open(Directories.UNVALIDATED,"a") as f:
+        #             for line in unvalidated_lines:
+        #                 f.write(line+"\n") 
+
+
+
+    def _is_client_banned(self,email) :
+        lines = self._read_banned()
+        exsist = ""
+        for line in lines : 
+            splited_line = line.split(" ")
+            if splited_line[0] == email:
+                exsist = splited_line[1]
+        return exsist
+
+    def _is_client_unvalidated(self,email) :
+        lines = self._read_unvalidated()
+        exsist = ""
+        for line in lines : 
+            splited_line = line.split(" ")
+            if splited_line[0] == email:
+                exsist = splited_line[1]
+        return exsist
+
+    def _read_banned(self):
+        with open(Directories.BANNED_DIR,"r") as f:
+            lines = f.read().splitlines()
+        return lines
+
+    def _read_unvalidated(self):
+        with open(Directories.UNVALIDATED,"r") as f:
+            lines = f.read().splitlines()
+        return lines
+        
+
+    def _remove_banned_client_from_file(self, email: str) :
+        lines: list = self._read_banned()
+        # removing client from the file
+        for line in lines :
+            splited_line = line.split(" ")
+            if splited_line[0] == email :
+                lines.remove(line)
+                break
+
+        with open(Directories.BANNED_DIR,"w") as f:
+            for line in lines :
+                f.write(line+"\n")
+
+    def _remove_unvalidate_client_from_file(self, email: str) :
+        lines: list = self._read_unvalidated()
+        # removing client from the file
+        for line in lines :
+            splited_line = line.split(" ")
+            if splited_line[0] == email :
+                lines.remove(line)
+                break
+
+        with open(Directories.UNVALIDATED,"w") as f:
+            for line in lines :
+                f.write(line+"\n")
+
+            
+
+ 
+
+
+            
+
+
+
+
+                    
+
+
 
 
 

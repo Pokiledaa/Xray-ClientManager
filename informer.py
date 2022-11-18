@@ -3,8 +3,8 @@ import requests
 import threading
 from time import sleep
 
-TOKEN = "YOUT TOKEN"
-CHAT_ID = "YOUR CHAT ID"
+TOKEN = ""
+CHAT_ID = ""
 
 class Informer:
     def __init__(self) -> None:

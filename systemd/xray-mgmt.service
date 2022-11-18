@@ -11,4 +11,3 @@ ExecStart=/usr/bin/python3 /root/Xray-ClientManager/xray-manager.py check -w 60
 [Install]
 WantedBy=multi-user.target
 
-

@@ -20,7 +20,11 @@ class Argument :
         # Apply changes on Xray Menu
         self.apply_parser = self.sub_parser.add_parser("apply",help="Applying Changes On the Xray Config File")
         # Unvalidate The Client Menu
-        self.uvvalidator_parser = self.sub_parser.add_parser("unvalidate",help="Unvalidate The Client")
+        self.unvalidator_parser = self.sub_parser.add_parser("unvalidate",help="Unvalidate The Client")
+        self.unvalidator_parser.add_argument("email",type=str)
+        # validate The banned Client Menu
+        self.validator_parser = self.sub_parser.add_parser("validate",help="validat The Banned Client")
+        self.validator_parser.add_argument("email",type=str)
 
 
 

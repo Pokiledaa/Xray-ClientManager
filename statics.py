@@ -8,3 +8,4 @@ class Directories(str,Enum):
     LOG_DIR = "log"
     BANNED_DIR = f"{LOG_DIR}/banned",
     STRICKER_DIR = f"{LOG_DIR}/strickers"
+    UNVALIDATED = f"{LOG_DIR}/unvalidated"
