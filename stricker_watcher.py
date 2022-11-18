@@ -55,7 +55,14 @@ class StrickerWatcher:
                     if search(email+"$",line):
                         
                         sub_line: list = line.split(" ")
-                        client_ip_list.append(sub_line[2])
+                        specific_ip = ""
+                        # BUG : tcp:86.57.45.193:0 is a ip too and cause the system to recongnize it as another ip
+                        # due we need to replace it with empy string 
+                        if sub_line[2].startswith("tcp:") :
+                            specific_ip = sub_line[2].replace("tcp:","")
+                        else : 
+                            specific_ip = sub_line[2]
+                        client_ip_list.append(specific_ip)
                         
             client_unique_ip: set = set(client_ip_list)
             client_unique_ip_count = len(client_unique_ip)
