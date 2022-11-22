@@ -78,9 +78,9 @@ class ClientHandler :
         image = qrcode.make(url)
         image_name = profile["email"].split("-")
         if len(image_name) == 1:
-            image.save(image_name[0]+".PNG")
+            image.save(f"generated_qr_code/{image_name[0]}.PNG")
         elif len(image_name) == 5:
-            image.save(image_name[1]+"-"+image_name[2]+".PNG")
+            image.save(f"generated_qr_code/{image_name[1]}-{image_name[2]}.PNG")
 
 
     def generate_uuid(self)-> str:

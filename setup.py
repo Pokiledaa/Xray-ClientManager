@@ -33,3 +33,10 @@ try:
         print(f"{Directories.UNVALIDATED} Created!!")
 except FileExistsError :
     print(f"{Directories.UNVALIDATED} Already Exsist")
+
+#Creating The generated output  folder
+try:
+    os.mkdir(Directories.GENERATED_OUTPUT)
+    print(f"{Directories.GENERATED_OUTPUT} Created!!")
+except FileExistsError :
+    print(f"{Directories.GENERATED_OUTPUT} Already Exsist")

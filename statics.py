@@ -9,3 +9,4 @@ class Directories(str,Enum):
     BANNED_DIR = f"{LOG_DIR}/banned",
     STRICKER_DIR = f"{LOG_DIR}/strickers"
     UNVALIDATED = f"{LOG_DIR}/unvalidated"
+    GENERATED_OUTPUT = "generated_qr_code"

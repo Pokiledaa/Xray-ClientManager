@@ -1,5 +1,6 @@
 __pycache__/
 .main.py.swp
+generated_qr_code
 access.log
 config.json
 xray.exe
