@@ -30,6 +30,38 @@ class StrickerWatcher:
         fd.close()
         return lines
 
+    def _creat_clients_log_file(self,emails: list):
+        for email in emails:
+            with open(f"{Directories.LOG_DIR}/client_monitoring/{email}","x") :
+                pass
+
+            # lines = self.reading_client_logs()
+            # for line in lines :
+
+    def _log_clients(self,emails: list):
+        for email in emails:
+            lines = self.reading_client_logs()
+            with open(f"{Directories.LOG_DIR}/client_monitoring/{email}","w") as f :
+                for line in lines :
+                    if search(email+"$",line):
+                            f.write(line+"\n")
+
+    def _log_client(self,email: str):
+        lines = self.reading_client_logs()
+        with open(f"{Directories.LOG_DIR}/client_monitoring/{email}.log","w") as f :
+            for line in lines :
+                if search(email+"$",line):
+                        f.write(line+"\n")
+
+
+            
+
+
+
+
+
+
+
     def count_ip_per_user(self,emails: list):
         # this The Total Connect
         total_current_conn: int = 0
@@ -56,7 +88,7 @@ class StrickerWatcher:
                         
                         sub_line: list = line.split(" ")
                         specific_ip = ""
-                        # BUG : tcp:86.57.45.193:0 is a ip too and cause the system to recongnize it as another ip
+                        # BUG Found : tcp:86.57.45.193:0 is a ip too and cause the system to recongnize it as another ip
                         # due we need to replace it with empy string 
                         if sub_line[2].startswith("tcp:") :
                             specific_ip = sub_line[2].replace("tcp:","")
@@ -83,9 +115,9 @@ class StrickerWatcher:
        
         return (stricker_list , connection_status)
 
+
     
     def stanalone_stricker_watcher(self, emails: list, client_handler: ClientHandler):
-   
         while True:
             banned_list:list = []
             os.system("> "+self.access_dir)
@@ -98,13 +130,17 @@ class StrickerWatcher:
             if len(striker_list) == 0 :
                 print("None")
             for stricker in striker_list:
+                # Strickers Informations
                 stricker_current_conn = stricker["current_conn"]
                 stricker_max_conn = stricker["max_conn"]
+                stricker_email = stricker["email"]
                 print(f"Stricker : \r\n{stricker}")
+                
+                #TODO this is for debuging purpose and should be not in last version
+                self._log_client(stricker_email)
                 if self.banning_on :
                     # Here we calculate for 3 more connection for strickers
-                    if stricker_current_conn > stricker_max_conn+2 :
-                        stricker_email = stricker["email"]
+                    if stricker_current_conn > stricker_max_conn+1 :
                         old_id = client_handler.unvalidate_banned_user(stricker_email)
                         self.create_banned_profile_file(stricker_email,old_id,stricker_current_conn)
                         banned_list.append(stricker_email)
@@ -121,7 +157,7 @@ class StrickerWatcher:
                 # Here we apply The Changes on the Detected Stricker if exsist
                 if len(banned_list) :
                     # here we will banned the users if banned_on is True 
-                    # self.informer.inform_admin(banned_list)
+                    self.informer.inform_admin(banned_list)
                     client_handler.apply_changes()
 
 

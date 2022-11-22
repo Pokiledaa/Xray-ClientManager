@@ -17,9 +17,10 @@ class Informer:
         requests.post(url)
 
     def inform_admin(self,message: str) :
-        thread = threading.Thread(target=self.post_thread,daemon=True)
-        self.message = message
-        thread.start()
+        if TOKEN != "" and CHAT_ID != "":
+            thread = threading.Thread(target=self.post_thread,daemon=True)
+            self.message = message
+            thread.start()
 
 
 

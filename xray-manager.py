@@ -118,8 +118,7 @@ class XrayHandler:
 def main():   
     consol = XrayHandler()
     consol.consol_start()
-    # conf = Config("conf.json")
-    # client = ClientHandler(conf.xray_conf)
+    
     
 
 if __name__ == "__main__":
