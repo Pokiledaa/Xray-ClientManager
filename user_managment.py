@@ -4,6 +4,9 @@ import subprocess
 import base64
 from re import search
 from statics import UNVALID_UUID,Directories
+from statics import (AddProfileResponseCode,
+    InboudType,
+)
 
 class ClientHandler :
     def __init__(
@@ -12,6 +15,7 @@ class ClientHandler :
     ):
         self.xray_conf_dir = xray_conf_dir
         self.os_tools = OsTools()
+        self.inbound_quantity: int
        
 
     def _read_json_conf(self):
@@ -88,13 +92,18 @@ class ClientHandler :
         uuid = temp.decode("utf-8").strip()
         return uuid
 
-    def add_profile(self,max_conn: int,ph_numer: str,name: str,start_time: str,duration: int):
+    def add_profile(self,
+        client_identity,
+        inbouds: list= [str],
+        max_conn: int= 0,
+        ) :
         '''
             Important Should Check if The User Already Exist or No 
             Step That Should Be done Here : 
-            1 - Making The Email String FORMAT : | max_conn@phone_number-first_name-last_name-start_time_duration |
+            1 - check for inbound selection
             2 - Genrating The UUID Using The xray command line 
             3 - making the desired Profile 
+            4 - checking if the client exsist or not
             4 - reading the config file 
             5 - appending the profile on it
             6 - recreating the json file 
@@ -102,33 +111,53 @@ class ClientHandler :
             8 - systemctl restart the xray service
             9 - getting the status 
             10 - if the problem found redoing the thing and puting the prevoius config file
+            
+            new at version : 1.10.1 
+                we add the profile for desired inbound and the complex add user have been removed
         '''
-        # 1
-        max_conn = str(max_conn)
-        duration = str(duration)
-        full_name = name.split(" ")
-        first_name = ""
-        last_name = ""
+        inbound_type = None
+        client_profile: list = []
+        inbounds = self._get_inbounds_type()
+        # STEP1 : First we check for inbounds 
+        # Here in This Update we dont need this feature anymore and we will simply create user 
+        # But We need to add option for which inbound ?
+        if len(inbouds) == 0 :
+             # This mean no inbound has been selected and we return
+            return AddProfileResponseCode.NO_INBOUND_SELECTED
+        elif len(inbouds) == 1 :
+            if inbouds[0] == InboudType.VLESS:
+                inbound_type = InboudType.VLESS
+            elif inbouds[0] == InboudType.VMESS:
+                inbound_type = InboudType.VMESS
+        elif len(inbouds) == 2:
+            inbound_type = InboudType.VLESS_VMESS   
         # 2 
         id = self.generate_uuid()
-        if len(full_name) == 1:
-            first_name = full_name[0]
-            last_name = full_name[1]            
-        elif len(full_name) == 2 :
-            first_name = full_name[0]
-            last_name = full_name[1]
         # 3
-        email:str = max_conn+"@"+ph_numer+"-"+first_name+"-"+last_name+"-"+start_time+"-"+duration
+        email:str = max_conn+"@"+client_identity
         # Here we check if The User ALready Exist or Not
+        #TODO need to recreate get_client_profile
         exsistance = self.get_client_profile(email)
         if exsistance :
-            return 0
+            # response code for client Exsistance
+            return AddProfileResponseCode.CLIENT_ALREADY_EXSIST
+        # Creating Profile Based on The Selected profile :
+        if inbound_type == InboudType.VLESS or inbound_type == InboudType.VLESS_VMESS:
+            vless_profile = {
+                "id": id,
+                "email": email,
+                "level": 1
+            }
+            client_profile.append(vless_profile)
 
-        profile = {
-            "id": id,
-            "email": email,
-            "level": 1
-        }
+        elif inbound_type == InboudType.VMESS or inbound_type == InboudType.VLESS_VMESS:
+            vmess_profile = {
+                "id": id,
+                "email": email,
+                "level": 1,
+                'alterId': 0
+            }
+            client_profile.append(vmess_profile)        
         # 4 
         js = self._read_json_conf()
         # 5
@@ -367,6 +396,20 @@ class ClientHandler :
         with open(Directories.UNVALIDATED,"w") as f:
             for line in lines :
                 f.write(line+"\n")
+
+    # Helper Function To detect that that if the inboud 0 is vless or vmess
+    def _get_inbounds_type(self) :
+        inbound_list = []
+        js = self._read_json_conf()
+        for inbound in js["inbounds"]:
+            inbound_list.append(inbound["protocol"])
+        return inbound_list
+        
+
+            
+
+        
+
 
             
 

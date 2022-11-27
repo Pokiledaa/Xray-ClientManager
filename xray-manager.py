@@ -110,9 +110,10 @@ class XrayHandler:
                 self.client_handler.apply_changes()
 
             elif command == "del":
-                email = self.arguments.args.email
-                self.client_handler.del_user(email)
-                self.client_handler.apply_changes()
+                # email = self.arguments.args.email
+                # self.client_handler.del_user(email)
+                # self.client_handler.apply_changes()
+                self.client_handler._get_inbounds_type()
 
                 
 
