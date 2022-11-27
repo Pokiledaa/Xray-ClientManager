@@ -232,6 +232,29 @@ class ClientHandler :
         if len(uuid_banned) == 0 and len(uuid_unvalid) == 0 :
             print("Desired Client doesnt found in Banned or Unvalidated files")
 
+    # This Function Delet The User From Config.json
+    def del_user(self,email: str):
+        # Checking for User Existance if True Continue
+        exsistance = self.get_client_profile(email)
+        if not exsistance :
+            print("User Doesnt Exist to Be Deleted ")
+            return 0
+        # reading The Config File 
+        js = self._read_json_conf()
+        # Finding The User in array of users .
+        for client in js["inbounds"][0]["settings"]["clients"]:
+            if client["email"] == email:
+               # here After Finding The User We Delet It
+               js["inbounds"][0]["settings"]["clients"].remove(client)
+               
+
+        with open(self.xray_conf_dir,"w") as xray_config :
+            json.dump(js,xray_config,indent=4)
+
+        return exsistance
+
+        
+
         
             
 

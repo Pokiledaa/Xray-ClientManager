@@ -22,6 +22,7 @@ class Config:
             self.xray_conf = self.conf_dict["XRAY_CONF"]
             self.access_dir = self.conf_dict["ACCESS_DIR"]
             self.banning_on = self.conf_dict["BANNING_ON"]
+            self.debug = self.conf_dict["DEBUG"]
 
 
 class XrayHandler:
@@ -32,7 +33,8 @@ class XrayHandler:
         # Configuration For Stricker Watcher
         self.watcher = StrickerWatcher(check_period=0,
             access_dir= self.system_conf.access_dir,
-            bannig_on= self.system_conf.banning_on
+            bannig_on= self.system_conf.banning_on,
+            debug= self.system_conf.debug
             )
 
 
@@ -106,6 +108,12 @@ class XrayHandler:
                 email = self.arguments.args.email
                 self.client_handler.validate_user(email)
                 self.client_handler.apply_changes()
+
+            elif command == "del":
+                email = self.arguments.args.email
+                self.client_handler.del_user(email)
+                self.client_handler.apply_changes()
+
                 
 
                 

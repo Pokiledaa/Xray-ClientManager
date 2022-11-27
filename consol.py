@@ -25,6 +25,10 @@ class Argument :
         # validate The banned Client Menu
         self.validator_parser = self.sub_parser.add_parser("validate",help="validat The Banned Client")
         self.validator_parser.add_argument("email",type=str)
+        # Delet Client Menu
+        self.del_parser = self.sub_parser.add_parser("del",help="Delete The Client")
+        self.del_parser.add_argument("email",type=str)
+
 
 
 

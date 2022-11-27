@@ -13,11 +13,13 @@ class StrickerWatcher:
         check_period,
         access_dir,
         bannig_on,
+        debug,
     ):
         # how often The Watcher Should Loock after strickers
         self.check_period = check_period
         self.access_dir = access_dir
         self.banning_on = bannig_on
+        self.debug = debug
         self.informer = Informer()
         
 
@@ -136,8 +138,8 @@ class StrickerWatcher:
                 stricker_email = stricker["email"]
                 print(f"Stricker : \r\n{stricker}")
                 
-                #TODO this is for debuging purpose and should be not in last version
-                self._log_client(stricker_email)
+                if self.debug :
+                    self._log_client(stricker_email)
                 if self.banning_on :
                     # Here we calculate for 3 more connection for strickers
                     if stricker_current_conn > stricker_max_conn+1 :

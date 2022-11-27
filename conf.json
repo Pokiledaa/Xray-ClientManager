@@ -1,5 +1,6 @@
 {
     "XRAY_CONF": "/usr/local/etc/xray/config.json",
     "ACCESS_DIR": "/var/log/xray/access.log",
-    "BANNING_ON": true
+    "BANNING_ON": false,
+    "DEBUG" : true
 }
