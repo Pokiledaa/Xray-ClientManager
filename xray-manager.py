@@ -76,15 +76,11 @@ class XrayHandler:
                 if len(connection_profile) == 1 :
                     print("Error Please Insert The User Device Connectivity |x@|")
                     exit()
-                profile = connection_profile[1].split("-")
-                if len(profile) != 5:
-                    print("Error Please Insert The User Correctly")
-                    exit()
-                else :
-                    self.client_handler.add_user(connection_profile[0],profile[0],profile[1]+" "+profile[2],profile[3],profile[4])
-                    # Here we Apply Changes if The Users specify it
-                    if self.arguments.args.apply :
-                        self.client_handler.apply_changes()
+            
+                self.client_handler.add_user(connection_profile[1],["vmess","vless"],connection_profile[0])
+                # Here we Apply Changes if The Users specify it
+                if self.arguments.args.apply :
+                    self.client_handler.apply_changes()
                     
 
             elif command == "check":

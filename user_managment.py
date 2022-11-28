@@ -97,6 +97,7 @@ class ClientHandler :
         inbouds: list= [str],
         max_conn: int= 0,
         ) :
+        #BUG For Now We only have static add profile need to be Dynamic
         '''
             Important Should Check if The User Already Exist or No 
             Step That Should Be done Here : 
@@ -124,16 +125,9 @@ class ClientHandler :
         if len(inbouds) == 0 :
              # This mean no inbound has been selected and we return
             return AddProfileResponseCode.NO_INBOUND_SELECTED
-        elif len(inbouds) == 1 :
-            if inbouds[0] == InboudType.VLESS:
-                inbound_type = InboudType.VLESS
-            elif inbouds[0] == InboudType.VMESS:
-                inbound_type = InboudType.VMESS
-        elif len(inbouds) == 2:
-            inbound_type = InboudType.VLESS_VMESS   
-        # 2 
+        # 2 Making Desired UUID
         id = self.generate_uuid()
-        # 3
+        # 3 Making Email Format
         email:str = max_conn+"@"+client_identity
         # Here we check if The User ALready Exist or Not
         #TODO need to recreate get_client_profile
@@ -142,26 +136,22 @@ class ClientHandler :
             # response code for client Exsistance
             return AddProfileResponseCode.CLIENT_ALREADY_EXSIST
         # Creating Profile Based on The Selected profile :
-        if inbound_type == InboudType.VLESS or inbound_type == InboudType.VLESS_VMESS:
-            vless_profile = {
-                "id": id,
-                "email": email,
-                "level": 1
-            }
-            client_profile.append(vless_profile)
-
-        elif inbound_type == InboudType.VMESS or inbound_type == InboudType.VLESS_VMESS:
-            vmess_profile = {
-                "id": id,
-                "email": email,
-                "level": 1,
-                'alterId': 0
-            }
-            client_profile.append(vmess_profile)        
+        vless_profile = {
+            "id": id,
+            "email": email,
+            "level": 1
+        }
+        vmess_profile = {
+            "id": id,
+            "email": email,
+            "level": 1,
+            'alterId': 0
+        }    
         # 4 
         js = self._read_json_conf()
         # 5
-        js["inbounds"][0]["settings"]["clients"].append(profile)
+        js["inbounds"][0]["settings"]["clients"].append(vmess_profile)    
+        js["inbounds"][1]["settings"]["clients"].append(vless_profile)    
         # 6
         with open(self.xray_conf_dir,"w") as xray_config :
             json.dump(js,xray_config,indent=4)
@@ -178,8 +168,12 @@ class ClientHandler :
             print("Error With The Config File check => xray config.json file and restart service")
             exit()
 
-    def add_user(self,max_conn: int,ph_numer: str,name: str,start_time: str,duration: int):
-        result = self.add_profile(max_conn, ph_numer ,name ,start_time ,duration)
+    def add_user(self,
+        client_identity: str,
+        inbouds: list= [str],
+        max_conn: int= 0
+    ):
+        result = self.add_profile(client_identity,["vmess","vless"],max_conn)
         if result :
             print("INFO : User Added !!")
         else :
