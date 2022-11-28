@@ -63,10 +63,14 @@ class XrayHandler:
                     print("Error : No user Found")
                 else : 
                     print("\r\n\r\n--------------------------------------------------Client URL-----------------------------------------------------------------")
-                    url = self.client_handler.get_client_url(email,domain,vpn_name)
-                    print(url)
+                    url_vless = self.client_handler.get_client_url(email,domain,vpn_name)
+                    print(url_vless)
+                    print("----------------------------------------------------------------------------------------------------------------------------")
+                    print("--------------------------------------------------Client URL-----------------------------------------------------------------")
+                    url_vmess = self.client_handler.get_client_url_vmess(email,domain,vpn_name)
+                    print(url_vmess)
                     print("----------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
-                    self.client_handler.get_client_qrcode(email,url)
+                    #self.client_handler.get_client_qrcode(email,url)
                     
 
 

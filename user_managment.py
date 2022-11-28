@@ -7,6 +7,7 @@ from statics import UNVALID_UUID,Directories
 from statics import (AddProfileResponseCode,
     InboudType,
 )
+from utils import get_network_ip_address
 
 class ClientHandler :
     def __init__(
@@ -70,21 +71,51 @@ class ClientHandler :
 
         return profile
 
+    def get_client_url_vmess(self, email: str, domain: str, vpn_name: str):
+        profile = self.get_client_profile(email)
+        local_ip = get_network_ip_address()
+
+        client_full_json: dict = {
+            "v": "2",
+            "ps": vpn_name,
+            "add": local_ip,
+            "port": "80",
+            "id": profile["id"],
+            "aid": "0",
+            "scy": "auto",
+            "net": "ws",
+            "type": "none",
+            "host": domain,
+            "path": "/users-vm",
+            "tls": "tls",
+            "sni": domain,
+            "alpn": ""
+        }
+        # Making Base 64 Clients
+        dumped = json.dumps(client_full_json)
+        message_bytes = dumped.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')
+        final_profile = "vmess://"+ base64_message
+        return final_profile
+
+
+
     def get_client_url(self, email: str, domain: str, vpn_name: str):
         profile = self.get_client_profile(email)
+        local_ip = get_network_ip_address()
 
-        url: str = "vless://"+profile["id"]+"@"+domain+"?path=%2Fuser"+"&"+"security=none"+"&"+"encryption=none"+"&"+"type=ws"+"#"+vpn_name
+        url: str = "vless://"+profile["id"]+"@"+f"{local_ip}:443"+"?"+f"sni={domain}"+"&"+"path=%2Fusers-vl"+"&"+"security=tls"+"&"+"encryption=none"+"&"+"type=ws"+"#"+vpn_name
 
         return url
 
     def get_client_qrcode(self,email: str, url: str):
         profile = self.get_client_profile(email)
         image = qrcode.make(url)
-        image_name = profile["email"].split("-")
-        if len(image_name) == 1:
-            image.save(f"generated_qr_code/{image_name[0]}.PNG")
-        elif len(image_name) == 5:
-            image.save(f"generated_qr_code/{image_name[1]}-{image_name[2]}.PNG")
+        image_name = profile["email"].split("@")
+      
+        image.save(f"generated_qr_code/{image_name[1]}.PNG")
+       
 
 
     def generate_uuid(self)-> str:
