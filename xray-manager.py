@@ -62,11 +62,11 @@ class XrayHandler:
                 if not profile :
                     print("Error : No user Found")
                 else : 
-                    print("\r\n\r\n--------------------------------------------------Client URL-----------------------------------------------------------------")
+                    print("\r\n\r\n--------------------------------------------------Client VLESS URL-----------------------------------------------------------------")
                     url_vless = self.client_handler.get_client_url(email,domain,vpn_name)
                     print(url_vless)
                     print("----------------------------------------------------------------------------------------------------------------------------")
-                    print("--------------------------------------------------Client URL-----------------------------------------------------------------")
+                    print("--------------------------------------------------Client VMESS URL-----------------------------------------------------------------")
                     url_vmess = self.client_handler.get_client_url_vmess(email,domain,vpn_name)
                     print(url_vmess)
                     print("----------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
@@ -114,6 +114,31 @@ class XrayHandler:
                 # self.client_handler.del_user(email)
                 # self.client_handler.apply_changes()
                 self.client_handler._get_inbounds_type()
+
+            elif command == "get-all" :
+                if self.arguments.args.domain == None :
+                    print("error : Please Enter The Domain name with |-i domain-name|")
+                    exit()
+                if self.arguments.args.name == None :
+                    print("error : Please Enter The vpn name  with |-n vpn-name|")
+                    exit()
+
+                domain:str =  self.arguments.args.domain
+                vpn_name:str =  self.arguments.args.name
+                vpn_name = vpn_name.replace(" ","+")
+                clients_email = self.client_handler.get_clients_email_list()
+                for client_email in clients_email :
+                    print(f"\r\n\r\n--------------------------------------------------{client_email}-----------------------------------------------------------------\r\n")
+                    print("--------------------------------------------------Client VLESS URL-----------------------------------------------------------------")
+                    url_vless = self.client_handler.get_client_url(client_email,domain,vpn_name)
+                    print(url_vless)
+                    print("----------------------------------------------------------------------------------------------------------------------------")
+                    print("--------------------------------------------------Client VMESS URL-----------------------------------------------------------------")
+                    url_vmess = self.client_handler.get_client_url_vmess(client_email,domain,vpn_name)
+                    print(url_vmess)
+                    print("----------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
+
+                    
 
                 
 
