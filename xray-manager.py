@@ -131,10 +131,12 @@ class XrayHandler:
                     print(f"\r\n\r\n--------------------------------------------------{client_email}-----------------------------------------------------------------\r\n")
                     print("--------------------------------------------------Client VLESS URL-----------------------------------------------------------------")
                     url_vless = self.client_handler.get_client_url(client_email,domain,vpn_name)
+                    self.client_handler.get_client_qrcode(client_email,url_vless,0)
                     print(url_vless)
                     print("----------------------------------------------------------------------------------------------------------------------------")
                     print("--------------------------------------------------Client VMESS URL-----------------------------------------------------------------")
                     url_vmess = self.client_handler.get_client_url_vmess(client_email,domain,vpn_name)
+                    self.client_handler.get_client_qrcode(client_email,url_vmess,1)
                     print(url_vmess)
                     print("----------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
 

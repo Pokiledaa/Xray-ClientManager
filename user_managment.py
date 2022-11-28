@@ -109,12 +109,14 @@ class ClientHandler :
 
         return url
 
-    def get_client_qrcode(self,email: str, url: str):
+    def get_client_qrcode(self,email: str, url: str, append: str):
         profile = self.get_client_profile(email)
         image = qrcode.make(url)
         image_name = profile["email"].split("@")
-      
-        image.save(f"generated_qr_code/{image_name[1]}.PNG")
+        if append ==0:
+            image.save(f"generated_qr_code/{image_name[1]}_vless.PNG")
+        else :
+            image.save(f"generated_qr_code/{image_name[1]}_vmess.PNG")
        
 
 
