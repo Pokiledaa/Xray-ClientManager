@@ -19,3 +19,8 @@ class AddProfileResponseCode(IntEnum):
 class InboudType(str,Enum):
     VLESS = "vless"
     VMESS = "vmess"
+
+
+
+class NetworkType(str,Enum):
+    WS = "ws"

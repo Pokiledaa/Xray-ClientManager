@@ -9,6 +9,8 @@ from statics import (AddProfileResponseCode,
 )
 from utils import get_network_ip_address
 
+from inbound_finder import InboundSetting
+
 class ClientHandler :
     def __init__(
         self,
@@ -16,7 +18,21 @@ class ClientHandler :
     ):
         self.xray_conf_dir = xray_conf_dir
         self.os_tools = OsTools()
-        self.inbound_quantity: int
+               
+        self.inbound_settings = self._inbound_finder()
+        self.inbound_quantity = len(self.inbound_settings)
+        self.inbound_setting_protocol_list = self._get_inbounds_type()
+        
+
+    def _inbound_finder(self):
+        inbound_settings = []
+        js = self._read_json_conf()
+        for inbound in js["inbounds"] :
+            setting = InboundSetting.inbound_from_json(inbound)
+            inbound_settings.append(setting)
+        return inbound_settings
+        
+
        
 
     def _read_json_conf(self):
@@ -71,33 +87,132 @@ class ClientHandler :
 
         return profile
 
-    def get_client_url_vmess(self, email: str, domain: str, vpn_name: str):
+    def get_client_url_vmess_direct_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        vpn_name = vpn_name+"DIRECT"
         profile = self.get_client_profile(email)
-        local_ip = get_network_ip_address()
+        
+        #local_ip = get_network_ip_address()
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.security == "auto" :
+                client_vmess_direct: dict = {
+                    "v": "2",
+                    "ps": vpn_name,
+                    "add": domain,
+                    "port": inbound.port,
+                    "id": profile["id"],
+                    "aid": "0",
+                    "scy": "chacha20-poly1305",
+                    "net": inbound.network,
+                    "type": "none",
+                    "host": "",
+                    "path": inbound.path,
+                    "tls": "",
+                    "sni": "",
+                    "alpn": ""
+                }
+                # Making Base 64 Clients
+                dumped = json.dumps(client_vmess_direct)
+                message_bytes = dumped.encode('ascii')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('ascii')
+                final_profile = "vmess://"+ base64_message
+                return final_profile
 
-        client_full_json: dict = {
-            "v": "2",
-            "ps": vpn_name,
-            "add": local_ip,
-            "port": "80",
-            "id": profile["id"],
-            "aid": "0",
-            "scy": "auto",
-            "net": "ws",
-            "type": "none",
-            "host": domain,
-            "path": "/users-vm",
-            "tls": "tls",
-            "sni": domain,
-            "alpn": ""
-        }
-        # Making Base 64 Clients
-        dumped = json.dumps(client_full_json)
-        message_bytes = dumped.encode('ascii')
-        base64_bytes = base64.b64encode(message_bytes)
-        base64_message = base64_bytes.decode('ascii')
-        final_profile = "vmess://"+ base64_message
-        return final_profile
+    def get_client_url_vmess_cdn_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        vpn_name = vpn_name+"-"+"CDN"
+        profile = self.get_client_profile(email)
+        
+        #local_ip = get_network_ip_address()
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.security == "auto" :
+                client_vmess_direct: dict = {
+                    "v": "2",
+                    "ps": vpn_name,
+                    "add": cdn_domain,
+                    "port": inbound.port,
+                    "id": profile["id"],
+                    "aid": "0",
+                    "scy": "chacha20-poly1305",
+                    "net": inbound.network,
+                    "type": "none",
+                    "host": "",
+                    "path": inbound.path,
+                    "tls": "",
+                    "sni": "",
+                    "alpn": ""
+                }
+                # Making Base 64 Clients
+                dumped = json.dumps(client_vmess_direct)
+                message_bytes = dumped.encode('ascii')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('ascii')
+                final_profile = "vmess://"+ base64_message
+                return final_profile
+
+    def get_client_url_vmess_direct_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        vpn_name = vpn_name+"-"+"TLS"
+        profile = self.get_client_profile(email)
+        
+        #local_ip = get_network_ip_address()
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.security == "tls" :
+                client_vmess_direct: dict = {
+                    "v": "2",
+                    "ps": vpn_name,
+                    "add": domain,
+                    "port": inbound.port,
+                    "id": profile["id"],
+                    "aid": "0",
+                    "scy": "chacha20-poly1305",
+                    "net": inbound.network,
+                    "type": "none",
+                    "host": "",
+                    "path": inbound.path,
+                    "tls": inbound.security,
+                    "sni": cdn_domain,
+                    "alpn": "false"
+                }
+                # Making Base 64 Clients
+                dumped = json.dumps(client_vmess_direct)
+                message_bytes = dumped.encode('ascii')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('ascii')
+                final_profile = "vmess://"+ base64_message
+                return final_profile
+
+
+    def get_client_url_vmess_cdn_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        vpn_name = vpn_name+"-"+"TLS"+"-"+"CDN"
+        profile = self.get_client_profile(email)
+        
+        #local_ip = get_network_ip_address()
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.security == "tls" :
+                client_vmess_direct: dict = {
+                    "v": "2",
+                    "ps": vpn_name,
+                    "add": cdn_domain,
+                    "port": inbound.port,
+                    "id": profile["id"],
+                    "aid": "0",
+                    "scy": "chacha20-poly1305",
+                    "net": inbound.network,
+                    "type": "none",
+                    "host": "",
+                    "path": inbound.path,
+                    "tls": inbound.security,
+                    "sni": cdn_domain,
+                    "alpn": "false"
+                }
+                # Making Base 64 Clients
+                dumped = json.dumps(client_vmess_direct)
+                message_bytes = dumped.encode('ascii')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('ascii')
+                final_profile = "vmess://"+ base64_message
+                return final_profile
+                
+
 
 
 
@@ -109,14 +224,12 @@ class ClientHandler :
 
         return url
 
-    def get_client_qrcode(self,email: str, url: str, append: str):
+    def get_client_qrcode(self,email: str, url: str, name_append: str):
         profile = self.get_client_profile(email)
         image = qrcode.make(url)
         image_name = profile["email"].split("@")
-        if append ==0:
-            image.save(f"generated_qr_code/{image_name[1]}_vless.PNG")
-        else :
-            image.save(f"generated_qr_code/{image_name[1]}_vmess.PNG")
+        image.save(f"generated_qr_code/{image_name[1]}_{name_append}.PNG")
+      
        
 
 
@@ -183,8 +296,11 @@ class ClientHandler :
         # 4 
         js = self._read_json_conf()
         # 5
-        js["inbounds"][0]["settings"]["clients"].append(vmess_profile)    
-        js["inbounds"][1]["settings"]["clients"].append(vless_profile)    
+        for index,protocol in enumerate(self.inbound_setting_protocol_list) :
+            if protocol == "vmess":
+                js["inbounds"][index]["settings"]["clients"].append(vmess_profile)
+            elif protocol == "vless":
+                js["inbounds"][index]["settings"]["clients"].append(vless_profile)
         # 6
         with open(self.xray_conf_dir,"w") as xray_config :
             json.dump(js,xray_config,indent=4)

@@ -8,6 +8,7 @@ class Argument :
         self.get_user_parser = self.sub_parser.add_parser("get",help="Returning The User From Config File ")
         self.get_user_parser.add_argument("email",type=str)
         self.get_user_parser.add_argument("-d","--domain",type=str)
+        self.get_user_parser.add_argument("-c","--cdn",type=str)
         self.get_user_parser.add_argument("-n","--name",type=str)
 
         self.add_user_parser = self.sub_parser.add_parser("add",help="Adding The user to The Config File ")
@@ -31,7 +32,9 @@ class Argument :
         # Get All Clients Menu
         self.get_all_users_parser = self.sub_parser.add_parser("get-all",help="Returning All Users From Config File")
         self.get_all_users_parser.add_argument("-d","--domain",type=str)
+        self.get_all_users_parser.add_argument("-c","--cdn",type=str)
         self.get_all_users_parser.add_argument("-n","--name",type=str)
+       
         
 
 

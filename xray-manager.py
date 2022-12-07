@@ -36,6 +36,23 @@ class XrayHandler:
             bannig_on= self.system_conf.banning_on,
             debug= self.system_conf.debug
             )
+    
+    def _get_user_vmess_all_conf(self,email,domain,vpn_name,cdn):
+        print("----------------------------------------------------VMESS CDN URL-----------------------------------------------------------------\r\n")
+        url_vmess_cdn_non_tls = self.client_handler.get_client_url_vmess_cdn_none_tls(email,domain,vpn_name,cdn)
+        self.client_handler.get_client_qrcode(email,url_vmess_cdn_non_tls,"CDN")
+        print(url_vmess_cdn_non_tls)
+        print("-------------------------------------------------VMESS DIRECT TLS URL-------------------------------------------------------------\r\n")
+        url_vmess_direct_tls = self.client_handler.get_client_url_vmess_direct_tls(email,domain,vpn_name,cdn)
+        self.client_handler.get_client_qrcode(email,url_vmess_direct_tls,"TLS")
+        print(url_vmess_direct_tls)
+        print("--------------------------------------------------VMESS CDN TLS URL---------------------------------------------------------------\r\n")
+        url_vmess_cdn_tls = self.client_handler.get_client_url_vmess_cdn_tls(email,domain,vpn_name,cdn)
+        self.client_handler.get_client_qrcode(email,url_vmess_cdn_tls,"TLS"+"-"+"CDN")
+        print(url_vmess_cdn_tls)
+        print("----------------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
+
+
 
 
     def consol_start(self):
@@ -57,20 +74,13 @@ class XrayHandler:
                 email:str = self.arguments.args.email
                 domain:str =  self.arguments.args.domain
                 vpn_name:str =  self.arguments.args.name
+                cdn: str = self.arguments.args.cdn
                 vpn_name = vpn_name.replace(" ","+")
                 profile = self.client_handler.get_client_profile(email)
                 if not profile :
                     print("Error : No user Found")
                 else : 
-                    print("\r\n\r\n--------------------------------------------------Client VLESS URL-----------------------------------------------------------------")
-                    url_vless = self.client_handler.get_client_url(email,domain,vpn_name)
-                    print(url_vless)
-                    print("----------------------------------------------------------------------------------------------------------------------------")
-                    print("--------------------------------------------------Client VMESS URL-----------------------------------------------------------------")
-                    url_vmess = self.client_handler.get_client_url_vmess(email,domain,vpn_name)
-                    print(url_vmess)
-                    print("----------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
-                    #self.client_handler.get_client_qrcode(email,url)
+                    self._get_user_vmess_all_conf(email,domain,vpn_name,cdn)
                     
 
 
@@ -125,21 +135,11 @@ class XrayHandler:
 
                 domain:str =  self.arguments.args.domain
                 vpn_name:str =  self.arguments.args.name
-                vpn_name = vpn_name.replace(" ","+")
+                cdn: str = self.arguments.args.cdn
                 clients_email = self.client_handler.get_clients_email_list()
                 for client_email in clients_email :
                     print(f"\r\n\r\n--------------------------------------------------{client_email}-----------------------------------------------------------------\r\n")
-                    print("--------------------------------------------------Client VLESS URL-----------------------------------------------------------------")
-                    url_vless = self.client_handler.get_client_url(client_email,domain,vpn_name+"-vless")
-                    self.client_handler.get_client_qrcode(client_email,url_vless,0)
-                    print(url_vless)
-                    print("----------------------------------------------------------------------------------------------------------------------------")
-                    print("--------------------------------------------------Client VMESS URL-----------------------------------------------------------------")
-                    url_vmess = self.client_handler.get_client_url_vmess(client_email,domain,vpn_name+"-vmess")
-                    self.client_handler.get_client_qrcode(client_email,url_vmess,1)
-                    print(url_vmess)
-                    print("----------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
-
+                    self._get_user_vmess_all_conf(client_email,domain,vpn_name,cdn)
                     
 
                 
