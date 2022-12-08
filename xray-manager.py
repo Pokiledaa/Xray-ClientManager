@@ -148,7 +148,6 @@ class XrayHandler:
                         uuid= clients_uuid_list[index]
                     )
 
-                self.doc.save_docx()
                     
 
                 

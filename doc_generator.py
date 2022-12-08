@@ -28,12 +28,9 @@ class DocGenerator:
         self.doc.add_picture(f"{Directories.GENERATED_OUTPUT}/{client_identity}_TLS.PNG",width=Inches(6))
         self.doc.add_page_break()
         self.doc.add_paragraph("VMESS TLS CDN").paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        self.doc.add_picture(f"{Directories.GENERATED_OUTPUT}/{client_identity}_TLS-CDN.PNG",width=Inches(6))  
-        self.doc.add_page_break() 
-
-    def save_docx(self):
-        self.doc.save("new_conf.docx")
-        #convert("new_conf.docx")
+        self.doc.add_picture(f"{Directories.GENERATED_OUTPUT}/{client_identity}_TLS-CDN.PNG",width=Inches(6))   
+        self.doc.save(f"{Directories.GENERATED_DOCX}/{client_identity}.docx")
+    
 
 
 

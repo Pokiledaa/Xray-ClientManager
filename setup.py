@@ -34,9 +34,16 @@ try:
 except FileExistsError :
     print(f"{Directories.UNVALIDATED} Already Exsist")
 
-#Creating The generated output  folder
+#Creating The generated  QR Code output  folder
 try:
     os.mkdir(Directories.GENERATED_OUTPUT)
     print(f"{Directories.GENERATED_OUTPUT} Created!!")
 except FileExistsError :
     print(f"{Directories.GENERATED_OUTPUT} Already Exsist")
+
+#Creating The generated DOCX output  folder
+try:
+    os.mkdir(Directories.GENERATED_DOCX)
+    print(f"{Directories.GENERATED_DOCX} Created!!")
+except FileExistsError :
+    print(f"{Directories.GENERATED_DOCX} Already Exsist")

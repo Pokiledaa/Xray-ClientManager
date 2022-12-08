@@ -10,6 +10,7 @@ class Directories(str,Enum):
     STRICKER_DIR = f"{LOG_DIR}/strickers"
     UNVALIDATED = f"{LOG_DIR}/unvalidated"
     GENERATED_OUTPUT = "generated_qr_code"
+    GENERATED_DOCX = "generated_docx"
 
 class AddProfileResponseCode(IntEnum):
     NO_INBOUND_SELECTED = 1
