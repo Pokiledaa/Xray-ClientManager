@@ -129,7 +129,7 @@ class ClientHandler :
                 return final_profile
 
     def get_client_url_vmess_cdn_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
-        vpn_name = vpn_name+"-"+"CDN"
+        vpn_name = vpn_name+"-"+"1"
         profile = self.get_client_profile(email)
         
         #local_ip = get_network_ip_address()
@@ -160,7 +160,7 @@ class ClientHandler :
                 return final_profile
 
     def get_client_url_vmess_direct_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
-        vpn_name = vpn_name+"-"+"TLS"
+        vpn_name = vpn_name+"-"+"2"
         profile = self.get_client_profile(email)
         
         #local_ip = get_network_ip_address()
@@ -192,7 +192,7 @@ class ClientHandler :
 
 
     def get_client_url_vmess_cdn_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
-        vpn_name = vpn_name+"-"+"TLS"+"-"+"CDN"
+        vpn_name = vpn_name+"-"+"3"
         profile = self.get_client_profile(email)
         
         #local_ip = get_network_ip_address()
