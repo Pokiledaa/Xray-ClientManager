@@ -6,6 +6,7 @@ from consol import Argument
 import json
 import os
 from network_manager import NetworkManager
+from doc_generator import DocGenerator
 from time import sleep
 
 
@@ -30,6 +31,7 @@ class XrayHandler:
         self.system_conf = Config("/root/Xray-ClientManager/conf.json")
         self.client_handler = ClientHandler(self.system_conf.xray_conf)
         self.arguments = Argument()
+        self.doc = DocGenerator()
         # Configuration For Stricker Watcher
         self.watcher = StrickerWatcher(check_period=0,
             access_dir= self.system_conf.access_dir,
@@ -137,9 +139,16 @@ class XrayHandler:
                 vpn_name:str =  self.arguments.args.name
                 cdn: str = self.arguments.args.cdn
                 clients_email = self.client_handler.get_clients_email_list()
-                for client_email in clients_email :
-                    print(f"\r\n\r\n--------------------------------------------------{client_email}-----------------------------------------------------------------\r\n")
-                    self._get_user_vmess_all_conf(client_email,domain,vpn_name,cdn)
+                clients_uuid_list = self.client_handler.get_clients_uuid_list()
+                for index in range(len(clients_email)) :
+                    print(f"\r\n\r\n--------------------------------------------------{clients_email[index]}-----------------------------------------------------------------\r\n")
+                    self._get_user_vmess_all_conf(clients_email[index],domain,vpn_name,cdn)
+                    self.doc.generate_docx(
+                        email=clients_email[index],
+                        uuid= clients_uuid_list[index]
+                    )
+
+                self.doc.save_docx()
                     
 
                 

@@ -70,6 +70,16 @@ class ClientHandler :
             client_list.append(client["email"])
         
         return client_list
+
+    def get_clients_uuid_list(self):
+        client_uuid_list: list = []
+        js = self._read_json_conf()
+        inbound = self._read_inbounds(js)
+        clients = self.read_clients(inbound)
+        for client in clients :
+            client_uuid_list.append(client["id"])
+        
+        return client_uuid_list
         
 
 
