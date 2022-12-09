@@ -143,6 +143,8 @@ class XrayHandler:
                 for index in range(len(clients_email)) :
                     print(f"\r\n\r\n--------------------------------------------------{clients_email[index]}-----------------------------------------------------------------\r\n")
                     self._get_user_vmess_all_conf(clients_email[index],domain,vpn_name,cdn)
+                    
+                for index in range(len(clients_email)) :   
                     self.doc.generate_docx(
                         email=clients_email[index],
                         uuid= clients_uuid_list[index]
