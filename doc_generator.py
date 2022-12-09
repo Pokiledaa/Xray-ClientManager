@@ -1,8 +1,6 @@
 from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt
-from docx2pdf import convert
 import socket
 from statics import Directories
 
