@@ -416,24 +416,40 @@ class ClientHandler :
 
     # This Function Delet The User From Config.json
     def del_user(self,email: str):
+        user_found: bool = False
         # Checking for User Existance if True Continue
-        exsistance = self.get_client_profile(email)
-        if not exsistance :
-            print("User Doesnt Exist to Be Deleted ")
-            return 0
+        # exsistance = self.get_client_profile(email)
+        # if not exsistance :
+        #     print("User Doesnt Exist to Be Deleted ")
+        #     return 0
         # reading The Config File 
         js = self._read_json_conf()
-        # Finding The User in array of users .
-        for client in js["inbounds"][0]["settings"]["clients"]:
-            if client["email"] == email:
-               # here After Finding The User We Delet It
-               js["inbounds"][0]["settings"]["clients"].remove(client)
+        for index,protocol in enumerate(self.inbound_setting_protocol_list) :
+            if protocol == "vmess":
+                for client in js["inbounds"][index]["settings"]["clients"]:
+                    if client["email"] == email:
+                        print(f"User Deleted Form The {protocol} from Inboud {index}")
+                        # here After Finding The User We Delet It
+                        js["inbounds"][index]["settings"]["clients"].remove(client)
+                        user_found = True
+                        break
+                else : 
+                    print(f"No User Found In {protocol} Inbound {index} To be Deleted")
+            elif protocol == "vless":
+                for client in js["inbounds"][index]["settings"]["clients"]:
+                    if client["email"] == email:
+                        print(f"User Deleted Form The {protocol} from Inboud {index}")
+                        # here After Finding The User We Delet It
+                        js["inbounds"][index]["settings"]["clients"].remove(client)
+                        user_found = True
+                        break
+                else : 
+                    print(f"No User Found In {protocol} Inbound {index} To be Deleted")
+       
                
-
-        with open(self.xray_conf_dir,"w") as xray_config :
-            json.dump(js,xray_config,indent=4)
-
-        return exsistance
+        if user_found :
+            with open(self.xray_conf_dir,"w") as xray_config :
+                json.dump(js,xray_config,indent=4)
 
         
 
