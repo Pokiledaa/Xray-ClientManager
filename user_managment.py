@@ -238,7 +238,7 @@ class ClientHandler :
         profile = self.get_client_profile(email)
 
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.security == "xtls" :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "xtls" :
 
                 url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"flow=xtls-rprx-direct&"+f"sni={domain}"+f"#{vpn_name}"
 
@@ -248,7 +248,7 @@ class ClientHandler :
         profile = self.get_client_profile(email)
 
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.security == "xtls" :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and  inbound.security == "auto" :
 
                 url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}"+f"#{vpn_name}"
 
@@ -258,7 +258,7 @@ class ClientHandler :
         profile = self.get_client_profile(email)
 
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.security == "xtls" :
+            if inbound.protocol == "vless" and inbound.network == "ws" and  inbound.security == "tls" :
 
                 url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}"+f"#{vpn_name}"
 
@@ -327,6 +327,12 @@ class ClientHandler :
             "email": email,
             "level": 1
         }
+
+        vless_xtls_profile = {
+            "id": id,
+            "email": email,
+            "flow": "xtls-rprx-direct"
+        }
         vmess_profile = {
             "id": id,
             "email": email,
@@ -336,10 +342,20 @@ class ClientHandler :
         # 4 
         js = self._read_json_conf()
         # 5
+        for index,inbound in enumerate(self.inbound_settings):
+            if inbound.protocol == "vmess":
+                js["inbounds"][index]["settings"]["clients"].append(vmess_profile)
+            elif inbound.protocol == "vless":
+                js["inbounds"][index]["settings"]["clients"].append(vless_profile)
+            if inbound.protocol == "vless" and inbound.security == "xtls":
+                js["inbounds"][index]["settings"]["clients"].append(vless_xtls_profile)
+           
+
         for index,protocol in enumerate(self.inbound_setting_protocol_list) :
             if protocol == "vmess":
                 js["inbounds"][index]["settings"]["clients"].append(vmess_profile)
             elif protocol == "vless":
+                if 
                 js["inbounds"][index]["settings"]["clients"].append(vless_profile)
         # 6
         with open(self.xray_conf_dir,"w") as xray_config :
