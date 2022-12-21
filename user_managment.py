@@ -345,7 +345,7 @@ class ClientHandler :
         for index,inbound in enumerate(self.inbound_settings):
             if inbound.protocol == "vmess":
                 js["inbounds"][index]["settings"]["clients"].append(vmess_profile)
-            elif inbound.protocol == "vless":
+            if inbound.protocol == "vless" and inbound.security != "xtls":
                 js["inbounds"][index]["settings"]["clients"].append(vless_profile)
             if inbound.protocol == "vless" and inbound.security == "xtls":
                 js["inbounds"][index]["settings"]["clients"].append(vless_xtls_profile)
