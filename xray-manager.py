@@ -62,9 +62,11 @@ class XrayHandler:
         print("-------------------------------------------------VLESS TCP URL-------------------------------------------------------------\r\n")
         url_vless_tcp_none_tls = self.client_handler.get_client_url_vless_tcp_none_tls(email,domain,vpn_name,cdn)
         self.client_handler.get_client_qrcode(email,url_vless_tcp_none_tls,"VLESS-TCP")
+        print(url_vless_tcp_none_tls)
         print("-------------------------------------------------VLESS WS TLS URL-------------------------------------------------------------\r\n")
         url_vless_WS_tls = self.client_handler.get_client_url_vless_ws_tls(email,domain,vpn_name,cdn)
         self.client_handler.get_client_qrcode(email,url_vless_WS_tls,"VLESS-WS-TLS")
+        print(url_vless_WS_tls)
 
     def consol_start(self):
         #Ceating Log Direcotry
