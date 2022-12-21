@@ -236,6 +236,7 @@ class ClientHandler :
 
     def get_client_url_vless_xtls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
         profile = self.get_client_profile(email)
+        vpn_name = vpn_name+"-"+"2"
 
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "xtls" :
@@ -246,6 +247,7 @@ class ClientHandler :
 
     def get_client_url_vless_tcp_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
         profile = self.get_client_profile(email)
+        vpn_name = vpn_name+"-"+"1"
 
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.network == "tcp" and  inbound.security == "auto" :
@@ -256,11 +258,13 @@ class ClientHandler :
 
     def get_client_url_vless_ws_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
         profile = self.get_client_profile(email)
+        vpn_name = vpn_name+"-"+"3"
 
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.network == "ws" and  inbound.security == "tls" :
+                path = inbound.path.removeprefix("/")
 
-                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}"+f"#{vpn_name}"
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"path=%2F{path}&"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}"+f"#{vpn_name}"
 
         return url
 
