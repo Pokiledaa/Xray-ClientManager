@@ -350,13 +350,6 @@ class ClientHandler :
             if inbound.protocol == "vless" and inbound.security == "xtls":
                 js["inbounds"][index]["settings"]["clients"].append(vless_xtls_profile)
            
-
-        for index,protocol in enumerate(self.inbound_setting_protocol_list) :
-            if protocol == "vmess":
-                js["inbounds"][index]["settings"]["clients"].append(vmess_profile)
-            elif protocol == "vless":
-                if 
-                js["inbounds"][index]["settings"]["clients"].append(vless_profile)
         # 6
         with open(self.xray_conf_dir,"w") as xray_config :
             json.dump(js,xray_config,indent=4)
