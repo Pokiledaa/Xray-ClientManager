@@ -250,7 +250,7 @@ class ClientHandler :
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.security == "xtls" :
 
-                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"#{vpn_name}"
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}"+f"#{vpn_name}"
 
         return url
 
