@@ -9,6 +9,8 @@ class InboundSetting:
             network: str,
             path: str,
             security: str,
+            alpn: list[str],
+            flow: str,
 
         ):
         self.listen = listen
@@ -17,6 +19,8 @@ class InboundSetting:
         self.network = network
         self.path = path
         self.security = security
+        self.alpn = alpn
+        self.flow = flow
 
     
     @staticmethod
@@ -41,13 +45,29 @@ class InboundSetting:
             # Maybe Exiting Program for unsupported Config File
             security = "auto"
 
+        try:
+            alpn = json_inbound["streamSettings"]["xtlsSettings"]["alpn"]
+        except KeyError :
+            # Maybe Exiting Program for unsupported Config File
+            alpn = [
+                "h2",
+                "http/1.1"
+            ]
+        try:
+            flow = json_inbound["streamSettings"]["settings"]["clients"][0]
+        except KeyError:
+            # Maybe Exiting Program for unsupported Config File
+            flow = "none"
+
         return InboundSetting(
             listen=listen,
             port=port,
             protocol=protocol,
             network=network,
             path=path,
-            security=security
+            security=security,
+            alpn=alpn,
+            flow = flow
         )
 
             

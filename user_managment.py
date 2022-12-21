@@ -24,7 +24,7 @@ class ClientHandler :
         self.inbound_setting_protocol_list = self._get_inbounds_type()
         
 
-    def _inbound_finder(self):
+    def _inbound_finder(self)-> list[InboundSetting]:
         inbound_settings = []
         js = self._read_json_conf()
         for inbound in js["inbounds"] :
@@ -231,6 +231,36 @@ class ClientHandler :
         local_ip = get_network_ip_address()
 
         url: str = "vless://"+profile["id"]+"@"+f"{local_ip}:443"+"?"+f"sni={domain}"+"&"+"path=%2Fusers-vl"+"&"+"security=tls"+"&"+"encryption=none"+"&"+"type=ws"+"#"+vpn_name
+
+        return url
+
+    def get_client_url_vless_xtls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        profile = self.get_client_profile(email)
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.security == "xtls" :
+
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"flow=xtls-rprx-direct&"+f"sni={domain}"+f"#{vpn_name}"
+
+        return url
+
+    def get_client_url_vless_tcp_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        profile = self.get_client_profile(email)
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.security == "xtls" :
+
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"#{vpn_name}"
+
+        return url
+
+    def get_client_url_vless_ws_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+        profile = self.get_client_profile(email)
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.security == "xtls" :
+
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}"+f"#{vpn_name}"
 
         return url
 

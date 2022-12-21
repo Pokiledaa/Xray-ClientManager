@@ -54,8 +54,17 @@ class XrayHandler:
         print(url_vmess_cdn_tls)
         print("----------------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
 
-
-
+    def _get_user_vless_all_conf(self,email,domain,vpn_name,cdn):
+        print("----------------------------------------------------VLESS XTLS-----------------------------------------------------------------\r\n")
+        url_vless_xtls = self.client_handler.get_client_url_vless_xtls(email,domain,vpn_name,cdn)
+        self.client_handler.get_client_qrcode(email,url_vless_xtls,"VLESS-TCP-XTLS")
+        print(url_vless_xtls)
+        print("-------------------------------------------------VLESS TCP URL-------------------------------------------------------------\r\n")
+        url_vless_tcp_none_tls = self.client_handler.get_client_url_vless_tcp_none_tls(email,domain,vpn_name,cdn)
+        self.client_handler.get_client_qrcode(email,url_vless_tcp_none_tls,"VLESS-TCP")
+        print("-------------------------------------------------VLESS WS TLS URL-------------------------------------------------------------\r\n")
+        url_vless_WS_tls = self.client_handler.get_client_url_vless_ws_tls(email,domain,vpn_name,cdn)
+        self.client_handler.get_client_qrcode(email,url_vless_WS_tls,"VLESS-WS-TLS")
 
     def consol_start(self):
         #Ceating Log Direcotry
@@ -82,7 +91,7 @@ class XrayHandler:
                 if not profile :
                     print("Error : No user Found")
                 else : 
-                    self._get_user_vmess_all_conf(email,domain,vpn_name,cdn)
+                    self._get_user_vless_all_conf(email,domain,vpn_name,cdn)
                     
 
 
