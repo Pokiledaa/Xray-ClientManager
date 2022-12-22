@@ -387,20 +387,21 @@ class ClientHandler :
         if not exsistance :
             print("User Doesnt Exist to Be modified Please creat The User First")
             return 0
-        # reading The Cnnfig File 
+        # reading The Config File 
         js = self._read_json_conf()
         # Finding The User in array of users .
-        for client in js["inbounds"][0]["settings"]["clients"]:
-            if client["email"] == email:
-                # Changing device Quantity
-                if device != 0:
-                    parsed_email = email.split("@")
-                    parsed_email[0] = str(device)
-                    new_email = parsed_email[0]+"@"+parsed_email[1]
-                    client["email"] = new_email
-                # changing the id of the user
-                if id != "":   
-                    client["id"] = id
+        for index in range(self.inbound_quantity)  :
+            for client in js["inbounds"][index]["settings"]["clients"]:
+                if client["email"] == email:
+                    # Changing device Quantity
+                    if device != 0:
+                        parsed_email = email.split("@")
+                        parsed_email[0] = str(device)
+                        new_email = parsed_email[0]+"@"+parsed_email[1]
+                        client["email"] = new_email
+                    # changing the id of the user
+                    if id != "":   
+                        client["id"] = id
 
         with open(self.xray_conf_dir,"w") as xray_config :
             json.dump(js,xray_config,indent=4)
