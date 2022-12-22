@@ -9,7 +9,7 @@ class InboundSetting:
             network: str,
             path: str,
             security: str,
-            alpn: list[str],
+            alpn: list,
             flow: str,
 
         ):
