@@ -14,12 +14,14 @@ class StrickerWatcher:
         access_dir,
         bannig_on,
         debug,
+        banning_connection_exceed
     ):
         # how often The Watcher Should Loock after strickers
         self.check_period = check_period
         self.access_dir = access_dir
         self.banning_on = bannig_on
         self.debug = debug
+        self.banning_connection_exceed = banning_connection_exceed
         self.informer = Informer()
         
 
@@ -103,9 +105,7 @@ class StrickerWatcher:
                         
             
             client_unique_ip: set = set(client_ip_list)
-            print(client_unique_ip)
             client_unique_ip_count = len(client_unique_ip)
-            print(client_unique_ip_count)
             # Here We Calculate Total Current Connection
             total_current_conn += client_unique_ip_count
             if client_unique_ip_count > client_max_conn :
@@ -148,7 +148,7 @@ class StrickerWatcher:
                     self._log_client(stricker_email)
                 if self.banning_on :
                     # Here we calculate for 3 more connection for strickers
-                    if stricker_current_conn > stricker_max_conn+1 :
+                    if stricker_current_conn > (stricker_max_conn+self.banning_connection_exceed) :
                         old_id = client_handler.unvalidate_banned_user(stricker_email)
                         self.create_banned_profile_file(stricker_email,old_id,stricker_current_conn)
                         banned_list.append(stricker_email)

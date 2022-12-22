@@ -24,6 +24,7 @@ class Config:
             self.access_dir = self.conf_dict["ACCESS_DIR"]
             self.banning_on = self.conf_dict["BANNING_ON"]
             self.debug = self.conf_dict["DEBUG"]
+            self.stricker_connection_num = self.conf_dict["STRICKER_BANNING_CONNECTION_NUM"]
 
 
 class XrayHandler:
@@ -36,7 +37,8 @@ class XrayHandler:
         self.watcher = StrickerWatcher(check_period=0,
             access_dir= self.system_conf.access_dir,
             bannig_on= self.system_conf.banning_on,
-            debug= self.system_conf.debug
+            debug= self.system_conf.debug,
+            banning_connection_exceed= self.system_conf.stricker_connection_num
             )
     
     def _get_user_vmess_all_conf(self,email,domain,vpn_name,cdn):

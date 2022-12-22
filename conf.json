@@ -1,6 +1,7 @@
 {
     "XRAY_CONF": "/usr/local/etc/xray/config.json",
     "ACCESS_DIR": "/var/log/xray/access.log",
-    "BANNING_ON": false,
-    "DEBUG" : false
+    "BANNING_ON": true,
+    "DEBUG" : false,
+    "STRICKER_BANNING_CONNECTION_NUM" : 5
 }
