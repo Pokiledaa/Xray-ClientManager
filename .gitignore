@@ -6,3 +6,4 @@ access.log
 config.json
 xray.exe
 log
+.get-pip.py
