@@ -24,7 +24,7 @@ class ClientHandler :
         self.inbound_setting_protocol_list = self._get_inbounds_type()
         
 
-    def _inbound_finder(self)-> list[InboundSetting]:
+    def _inbound_finder(self)-> list:
         inbound_settings = []
         js = self._read_json_conf()
         for inbound in js["inbounds"] :
