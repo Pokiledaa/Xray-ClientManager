@@ -11,6 +11,7 @@ class Directories(str,Enum):
     UNVALIDATED = f"{LOG_DIR}/unvalidated"
     GENERATED_OUTPUT = "generated_qr_code"
     GENERATED_DOCX = "generated_docx"
+    CLIENT_MONITORING_DIR = f"{LOG_DIR}/client_monitoring"
 
 class AddProfileResponseCode(IntEnum):
     NO_INBOUND_SELECTED = 1

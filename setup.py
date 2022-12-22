@@ -47,3 +47,12 @@ try:
     print(f"{Directories.GENERATED_DOCX} Created!!")
 except FileExistsError :
     print(f"{Directories.GENERATED_DOCX} Already Exsist")
+
+
+#Creating The Client Monitoring  File
+try :
+    os.mkdir(Directories.CLIENT_MONITORING_DIR)
+    print(f"{Directories.CLIENT_MONITORING_DIR} Created!!")
+except FileExistsError :
+    print(f"{Directories.CLIENT_MONITORING_DIR} Already Exsist")
+

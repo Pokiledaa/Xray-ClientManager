@@ -90,16 +90,22 @@ class StrickerWatcher:
                         
                         sub_line: list = line.split(" ")
                         specific_ip = ""
+                        specific_ip_without_port = ""
                         # BUG Found : tcp:86.57.45.193:0 is a ip too and cause the system to recongnize it as another ip
                         # due we need to replace it with empy string 
                         if sub_line[2].startswith("tcp:") :
                             specific_ip = sub_line[2].replace("tcp:","")
+                            specific_ip =  specific_ip.split(":")
                         else : 
                             specific_ip = sub_line[2]
-                        client_ip_list.append(specific_ip)
+                            specific_ip = specific_ip.split(":")
+                        client_ip_list.append(specific_ip[0])
                         
+            
             client_unique_ip: set = set(client_ip_list)
+            print(client_unique_ip)
             client_unique_ip_count = len(client_unique_ip)
+            print(client_unique_ip_count)
             # Here We Calculate Total Current Connection
             total_current_conn += client_unique_ip_count
             if client_unique_ip_count > client_max_conn :
