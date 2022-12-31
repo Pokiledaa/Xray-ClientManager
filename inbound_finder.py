@@ -11,6 +11,7 @@ class InboundSetting:
             security: str,
             alpn: list,
             flow: str,
+            tcp_setting_header_type: str
 
         ):
         self.listen = listen
@@ -21,6 +22,7 @@ class InboundSetting:
         self.security = security
         self.alpn = alpn
         self.flow = flow
+        self.tcp_setting_header_type = tcp_setting_header_type
 
     
     @staticmethod
@@ -59,6 +61,12 @@ class InboundSetting:
             # Maybe Exiting Program for unsupported Config File
             flow = "none"
 
+
+        try:
+            tcp_setting_header_type = json_inbound["streamSettings"]["tcpSettings"]["header"]["type"]
+        except KeyError:
+            tcp_setting_header_type = "http"
+
         return InboundSetting(
             listen=listen,
             port=port,
@@ -67,7 +75,8 @@ class InboundSetting:
             path=path,
             security=security,
             alpn=alpn,
-            flow = flow
+            flow = flow,
+            tcp_setting_header_type=tcp_setting_header_type
         )
 
             

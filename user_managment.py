@@ -221,6 +221,37 @@ class ClientHandler :
                 base64_message = base64_bytes.decode('ascii')
                 final_profile = "vmess://"+ base64_message
                 return final_profile
+
+    def get_client_url_vmess_tcp_obfussification(self, email: str, domain: str, vpn_name: str, cdn_domain: str,request_host="www.google.com"):
+        vpn_name = vpn_name+"-"+"1"
+        profile = self.get_client_profile(email)
+        
+        #local_ip = get_network_ip_address()
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.network == "tcp" :
+                client_vmess_direct: dict = {
+                    "v": "2",
+                    "ps": vpn_name,
+                    "add": domain,
+                    "port": inbound.port,
+                    "id": profile["id"],
+                    "aid": "0",
+                    "scy": "chacha20-poly1305",
+                    "net": inbound.network,
+                    "type": "http",
+                    "host": request_host,
+                    "path": "/",
+                    "tls": "",
+                    "sni": "",
+                    "alpn": "false"
+                }
+                # Making Base 64 Clients
+                dumped = json.dumps(client_vmess_direct)
+                message_bytes = dumped.encode('ascii')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('ascii')
+                final_profile = "vmess://"+ base64_message
+                return final_profile
                 
 
 
@@ -234,20 +265,26 @@ class ClientHandler :
 
         return url
 
-    def get_client_url_vless_xtls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
+    def get_client_url_vless_tcp_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str,request_host="www.google.com"):
         profile = self.get_client_profile(email)
         vpn_name = vpn_name+"-"+"2"
+        url = ""
 
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "xtls" :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls" :
+                security_new = inbound.security
+                if security_new == "xtls":
+                    security_new = "tls"
 
-                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"flow=xtls-rprx-direct&"+f"sni={domain}"+f"#{vpn_name}"
+
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"path=%2F&"+f"security={security_new}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"host={request_host}&"+f"headerType={inbound.tcp_setting_header_type}&"+f"type={inbound.network}&"+f"sni={domain}&"+f"uTLS=randomized&"+f"allowInsecure=false"+f"#{vpn_name}"
 
         return url
 
     def get_client_url_vless_tcp_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
         profile = self.get_client_profile(email)
         vpn_name = vpn_name+"-"+"1"
+        url = ""
 
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.network == "tcp" and  inbound.security == "auto" :
@@ -264,7 +301,7 @@ class ClientHandler :
             if inbound.protocol == "vless" and inbound.network == "ws" and  inbound.security == "tls" :
                 path = inbound.path.replace("/","")
 
-                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"path=%2F{path}&"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}"+f"#{vpn_name}"
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"path=%2F{path}&"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}+"f"allowInsecure=false"+f"#{vpn_name}"
 
         return url
 
@@ -341,7 +378,7 @@ class ClientHandler :
             "id": id,
             "email": email,
             "level": 1,
-            'alterId': 0
+            'alterId': 64
         }    
         # 4 
         js = self._read_json_conf()
