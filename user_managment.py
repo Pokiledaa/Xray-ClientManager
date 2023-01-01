@@ -301,7 +301,7 @@ class ClientHandler :
             if inbound.protocol == "vless" and inbound.network == "ws" and  inbound.security == "tls" :
                 path = inbound.path.replace("/","")
 
-                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"path=%2F{path}&"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}+"f"allowInsecure=false"+f"#{vpn_name}"
+                url: str = "vless://"+profile["id"]+f"@{domain}"+f":{inbound.port}"+"?"+f"path=%2F{path}&"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"sni={domain}&+"f"allowInsecure=false"+f"#{vpn_name}"
 
         return url
 
