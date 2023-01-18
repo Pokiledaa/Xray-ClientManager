@@ -208,6 +208,10 @@ class XrayHandler:
                 url_trojan_gprc_tls = self.client_handler.v1_get_url_trojan_tcp_grpc_tls(email)
                 print(url_trojan_gprc_tls)
                 self._line()
+                url_trojan_gprc_tls_proxy = self.client_handler.v1_get_url_trojan_tcp_grpc_tls_proxy(email)
+                print(url_trojan_gprc_tls_proxy)
+                self._line()
+
 
 
 

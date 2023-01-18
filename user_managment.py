@@ -231,7 +231,7 @@ class ClientHandler :
 
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
-                url: str = "trojan://"+profile["id"]+f"@{self.vmess.domain_name}"+f":8443"+"?"+f"mode=gun&security=tls&alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+                url: str = "trojan://"+profile["id"]+f"@{self.vmess.cdn_name}"+f":8443"+"?"+f"mode=gun&security=tls&alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
 
         return url
 
