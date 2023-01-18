@@ -35,7 +35,11 @@ class Argument :
         self.get_all_users_parser.add_argument("-d","--domain",type=str)
         self.get_all_users_parser.add_argument("-c","--cdn",type=str)
         self.get_all_users_parser.add_argument("-n","--name",type=str)
-       
+
+        # Get All Clients Menu
+        self.get_auto = self.sub_parser.add_parser("get-auto", help="Auto Generation of The Config")
+        self.get_auto.add_argument("email",type=str)
+        
         
 
 

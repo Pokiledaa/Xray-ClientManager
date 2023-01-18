@@ -86,6 +86,9 @@ class XrayHandler:
         print(url_vless_WS_tls)
         print("----------------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
 
+    def _line(self):
+        print("----------------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
+
 
 
     def consol_start(self):
@@ -181,6 +184,33 @@ class XrayHandler:
                         email=clients_email[index],
                         uuid= clients_uuid_list[index]
                     )
+
+            elif command == "get-auto" : 
+                email = self.arguments.args.email
+                url_vmess_ws_nginx_tls = self.client_handler.v1_get_url_wmess_ws_nginx_tls(email)
+                print(url_vmess_ws_nginx_tls)
+                self._line()
+                url_vmess_ws_nginx_tls_proxy = self.client_handler.v1_get_url_wmess_ws_nginx_tls_proxy(email)
+                print(url_vmess_ws_nginx_tls)
+                self._line()
+                url_vmess_ws_tls = self.client_handler.v1_get_url_wmess_ws_tls(email)
+                print(url_vmess_ws_tls)
+                self._line()
+                url_vmess_tcp_obfs = self.client_handler.v1_get_url_wmess_tcp_obfs(email)
+                print(url_vmess_tcp_obfs)
+                self._line()
+                url_vless_tcp_tls_obfs = self.client_handler.v1_get_url_vless_tcp_tls_obfs(email)
+                print(url_vless_tcp_tls_obfs)
+                self._line()
+                url_vless_tcp_xtls_vision = self.client_handler.v1_get_url_vless_tcp_xtls_vision(email)
+                print(url_vless_tcp_xtls_vision)
+                self._line()
+                url_trojan_gprc_tls = self.client_handler.v1_get_url_trojan_tcp_grpc_tls(email)
+                print(url_trojan_gprc_tls)
+                self._line()
+
+
+
 
                     
 

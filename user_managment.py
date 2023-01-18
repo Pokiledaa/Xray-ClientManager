@@ -10,6 +10,7 @@ from statics import (AddProfileResponseCode,
 from utils import get_network_ip_address
 
 from inbound_finder import InboundSetting
+from protocols import Vmess
 
 class ClientHandler :
     def __init__(
@@ -22,6 +23,9 @@ class ClientHandler :
         self.inbound_settings = self._inbound_finder()
         self.inbound_quantity = len(self.inbound_settings)
         self.inbound_setting_protocol_list = self._get_inbounds_type()
+
+        # Creating Protocol Instance
+        self.vmess = Vmess()
         
 
     def _inbound_finder(self)-> list:
@@ -96,6 +100,156 @@ class ClientHandler :
                 break
 
         return profile
+
+    # Config V1.1 VMESS + WS + NGINX + TLS
+    def v1_get_url_wmess_ws_nginx_tls(self,email: str)  :
+        profile = self.get_client_profile(email)
+        
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.port == 14741 :
+                url = self.vmess.url_ws_tls_nginx(
+                    id= profile["id"],
+                    inboubd= inbound,
+                    append_vpn_name="-1"
+                )  
+                break
+        final_url = self.make_base64(url)
+        return final_url
+
+    # Config V1.1 VMESS + WS + NGINX + TLS + PROXY
+    def v1_get_url_wmess_ws_nginx_tls_proxy(self,email: str)  :
+        profile = self.get_client_profile(email)
+        
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.port == 14741 :
+                url = self.vmess.url_ws_tls_nginx_proxy(
+                    id= profile["id"],
+                    inboubd= inbound,
+                    append_vpn_name="-2"
+                )  
+                break
+        final_url = self.make_base64(url)
+        return final_url
+
+    # Config V1.1 VMESS + WS + TLS 
+    def v1_get_url_wmess_ws_tls(self,email: str)  :
+        profile = self.get_client_profile(email)
+        
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.network == "ws" and inbound.security == "tls" :
+                url = self.vmess.url_ws_tls(
+                    id= profile["id"],
+                    inboubd= inbound,
+                    append_vpn_name="-3"
+                )  
+                break
+        final_url = self.make_base64(url)
+        return final_url
+
+
+    # Config V1.1 VMESS + TCP + OBFS 
+    def v1_get_url_wmess_tcp_obfs(self,email: str)  :
+        profile = self.get_client_profile(email)
+        
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.network == "tcp" and inbound.security == "auto" :
+                url = self.vmess.url_ws_tls(
+                    id= profile["id"],
+                    inboubd= inbound,
+                    append_vpn_name="-4"
+                )  
+                break
+        final_url = self.make_base64(url)
+        return final_url
+
+
+    # Config V1.1 VLESS + TCP + OBFS 
+    def v1_get_url_wmess_tcp_obfs(self,email: str)  :
+        profile = self.get_client_profile(email)
+        
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vmess" and inbound.network == "tcp" and inbound.security == "auto" :
+                url = self.vmess.url_ws_tls(
+                    id= profile["id"],
+                    inboubd= inbound,
+                    append_vpn_name="4"
+                )  
+                break
+        final_url = self.make_base64(url)
+        return final_url
+
+    # Config V1.1 VLESS + TCP + TLS + OBFS 
+    def v1_get_url_vless_tcp_tls_obfs(self,email: str)  :
+        profile = self.get_client_profile(email)
+        vpn_name =  self.vmess.vpn_name 
+        vpn_name = vpn_name+"-"+"5"
+        url = ""
+
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls" :
+                url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":8444"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"host=www.google.com&"+f"headerType={inbound.tcp_setting_header_type}&"+f"type={inbound.network}&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+
+        return url
+
+    # Config V1.1 VLESS + TCP + XTLS + VISION 
+    def v1_get_url_vless_tcp_xtls_vision(self,email: str)  :
+        profile = self.get_client_profile(email)
+        vpn_name =  self.vmess.vpn_name 
+        vpn_name = vpn_name+"-"+"6"
+        url = ""
+
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
+                url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"flow=xtls-rprx-vision&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+
+        return url
+
+
+    # Config V1.1 TROJAN + GRPC + TLS 
+    def v1_get_url_trojan_tcp_grpc_tls(self,email: str)  :
+        profile = self.get_client_profile(email)
+        vpn_name =  self.vmess.vpn_name 
+        vpn_name = vpn_name+"-"+"7"
+        url = ""
+
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
+                url: str = "trojan://"+profile["id"]+f"@{self.vmess.domain_name}"+f":8443"+"?"+f"mode=gun&security=tls&alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+
+        return url
+
+    # Config V1.1 TROJAN + GRPC + TLS 
+    def v1_get_url_trojan_tcp_grpc_tls_proxy(self,email: str)  :
+        profile = self.get_client_profile(email)
+        vpn_name =  self.vmess.vpn_name 
+        vpn_name = vpn_name+"-"+"7"
+        url = ""
+
+
+        for inbound in self.inbound_settings :
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
+                url: str = "trojan://"+profile["id"]+f"@{self.vmess.domain_name}"+f":8443"+"?"+f"mode=gun&security=tls&alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+
+        return url
+
+
+
+    def make_base64(self,url):
+        # Making Base 64 Clients
+        dumped = json.dumps(url)
+        message_bytes = dumped.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        base64_message = base64_bytes.decode('ascii')
+        final_profile = "vmess://"+ base64_message
+        return final_profile
+
+        
+
+
+
 
     def get_client_url_vmess_direct_none_tls(self, email: str, domain: str, vpn_name: str, cdn_domain: str):
         vpn_name = vpn_name+"DIRECT"
