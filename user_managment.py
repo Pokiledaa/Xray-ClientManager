@@ -173,7 +173,7 @@ class ClientHandler :
 
         for inbound in self.inbound_settings :
             if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls" and inbound.tcp_setting_header_type == "http" :
-                url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"host=www.google.com&"+f"headerType={inbound.tcp_setting_header_type}&"+f"type={inbound.network}&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+                url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"host={self.vmess.request_host}&"+f"headerType={inbound.tcp_setting_header_type}&"+f"type={inbound.network}&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
 
         return url
 

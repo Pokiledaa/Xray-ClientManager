@@ -10,6 +10,7 @@ class EnviromentVariables(str,Enum):
     VPN_NAME = "VPN_NAME"
     DOMAIN_NAME = "DOMAIN_NAME"
     CND_NAME = "CDN_NAME"
+    REQUEST_HOST ="REQUEST_HOST"
 
 
 class V2rayConfig:
@@ -23,6 +24,7 @@ class Protocols:
         self.vpn_name = self.get_vpn_name()
         self.domain_name = self.get_domain_name()
         self.cdn_name = self.get_cdn_name()
+        self.request_host = self.get_request_host()
 
     def get_vpn_name(self,name= ""):
         if(name == ""):
@@ -38,6 +40,11 @@ class Protocols:
         if cdn == "":
             cdn = os.getenv(EnviromentVariables.CND_NAME,"ERROR")
         return cdn
+
+    def get_request_host(self,request_host=""):
+        if request_host == "":
+            request_host = os.getenv(EnviromentVariables.REQUEST_HOST)
+        return request_host
 
 
 
@@ -141,7 +148,7 @@ class Vmess(Protocols):
         vmess_dict["scy"] = "chacha20-poly1305"
         vmess_dict["net"] = inboubd.network
         vmess_dict["type"] = inboubd.tcp_setting_header_type
-        vmess_dict["host"] = "www.google.com"
+        vmess_dict["host"] = self.request_host
         vmess_dict["path"] = inboubd.path
         vmess_dict["tls"] = ""
         vmess_dict["sni"] = ""
