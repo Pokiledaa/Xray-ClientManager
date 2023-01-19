@@ -90,6 +90,8 @@ class XrayHandler:
         print("----------------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
 
     def _get_config_v1_1(self,email):
+        # Getting The Profile
+        profile = self.client_handler.get_client_profile(email)
         append_name_1 = "VMESS-WS-NGINX-TLS"
         print("----------------------------------------------------VMESS WS NGINX TLS-----------------------------------------------------------------\r\n")
         url_vmess_ws_nginx_tls = self.client_handler.v1_get_url_wmess_ws_nginx_tls(email)
@@ -138,6 +140,7 @@ class XrayHandler:
         self.client_handler.get_client_qrcode(email,url_trojan_gprc_tls_proxy,append_name_8)
         print(url_trojan_gprc_tls_proxy)
         self._line()
+        self.doc.generate_docx_v_1_1(email,profile["id"],append_name_1,append_name_2,append_name_3,append_name_4,append_name_5,append_name_6,append_name_7,append_name_8)
 
     def consol_start(self):
         #Ceating Log Direcotry
