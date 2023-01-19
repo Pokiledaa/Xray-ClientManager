@@ -110,7 +110,7 @@ class ClientHandler :
                 url = self.vmess.url_ws_tls_nginx(
                     id= profile["id"],
                     inboubd= inbound,
-                    append_vpn_name="-1"
+                    append_vpn_name="1"
                 )  
                 break
         final_url = self.make_base64(url)
@@ -125,7 +125,7 @@ class ClientHandler :
                 url = self.vmess.url_ws_tls_nginx_proxy(
                     id= profile["id"],
                     inboubd= inbound,
-                    append_vpn_name="-2"
+                    append_vpn_name="2"
                 )  
                 break
         final_url = self.make_base64(url)
@@ -140,7 +140,7 @@ class ClientHandler :
                 url = self.vmess.url_ws_tls(
                     id= profile["id"],
                     inboubd= inbound,
-                    append_vpn_name="-3"
+                    append_vpn_name="3"
                 )  
                 break
         final_url = self.make_base64(url)
@@ -153,23 +153,7 @@ class ClientHandler :
         
         for inbound in self.inbound_settings :
             if inbound.protocol == "vmess" and inbound.network == "tcp" and inbound.security == "auto" :
-                url = self.vmess.url_ws_tls(
-                    id= profile["id"],
-                    inboubd= inbound,
-                    append_vpn_name="-4"
-                )  
-                break
-        final_url = self.make_base64(url)
-        return final_url
-
-
-    # Config V1.1 VLESS + TCP + OBFS 
-    def v1_get_url_wmess_tcp_obfs(self,email: str)  :
-        profile = self.get_client_profile(email)
-        
-        for inbound in self.inbound_settings :
-            if inbound.protocol == "vmess" and inbound.network == "tcp" and inbound.security == "auto" :
-                url = self.vmess.url_ws_tls(
+                url = self.vmess.url_tcp_obfs(
                     id= profile["id"],
                     inboubd= inbound,
                     append_vpn_name="4"
@@ -177,6 +161,7 @@ class ClientHandler :
                 break
         final_url = self.make_base64(url)
         return final_url
+
 
     # Config V1.1 VLESS + TCP + TLS + OBFS 
     def v1_get_url_vless_tcp_tls_obfs(self,email: str)  :

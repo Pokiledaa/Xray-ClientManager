@@ -134,7 +134,7 @@ class Vmess(Protocols):
         name = name+"-"+append_vpn_name
         vmess_dict = self.vmess_dict_base
         vmess_dict["ps"] = name
-        vmess_dict["add"] = self.cdn_name
+        vmess_dict["add"] = self.domain_name
         vmess_dict["port"] = inboubd.port
         vmess_dict["id"] = id
         vmess_dict["aid"] = 0
