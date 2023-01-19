@@ -89,7 +89,55 @@ class XrayHandler:
     def _line(self):
         print("----------------------------------------------------------------------------------------------------------------------------------\r\n\r\n")
 
-
+    def _get_config_v1_1(self,email):
+        append_name_1 = "VMESS-WS-NGINX-TLS"
+        print("----------------------------------------------------VMESS WS NGINX TLS-----------------------------------------------------------------\r\n")
+        url_vmess_ws_nginx_tls = self.client_handler.v1_get_url_wmess_ws_nginx_tls(email)
+        self.client_handler.get_client_qrcode(email,url_vmess_ws_nginx_tls,append_name_1)
+        print(url_vmess_ws_nginx_tls)
+        self._line()
+        print("-------------------------------------------------VMESS WS NGINX TLS PROXY---------------------------------------------------------------\r\n")
+        append_name_2 = "VMESS-WS-NGINX-TLS-PROXY"
+        url_vmess_ws_nginx_tls_proxy = self.client_handler.v1_get_url_wmess_ws_nginx_tls_proxy(email)
+        self.client_handler.get_client_qrcode(email,url_vmess_ws_nginx_tls_proxy,append_name_2)
+        print(url_vmess_ws_nginx_tls_proxy)
+        self._line()
+        print("-------------------------------------------------------VMESS WS TLS----------------------------------------------------------------------\r\n")
+        append_name_3 = "VMESS-WS-TLS"
+        url_vmess_ws_tls = self.client_handler.v1_get_url_wmess_ws_tls(email)
+        self.client_handler.get_client_qrcode(email,url_vmess_ws_tls,append_name_3)
+        print(url_vmess_ws_tls)
+        self._line()
+        print("------------------------------------------------------VMESS TCP OBFS---------------------------------------------------------------------\r\n")
+        append_name_4 = "VMESS-TCP-OBFS"
+        url_vmess_tcp_obfs = self.client_handler.v1_get_url_wmess_tcp_obfs(email)
+        self.client_handler.get_client_qrcode(email,url_vmess_tcp_obfs,append_name_4)
+        print(url_vmess_tcp_obfs)
+        self._line()
+        print("----------------------------------------------------VLESS TCP TLS OFS--------------------------------------------------------------------\r\n")
+        append_name_5 = "VLESS-TCP-TLS-OFS"
+        url_vless_tcp_tls_obfs = self.client_handler.v1_get_url_vless_tcp_tls_obfs(email)
+        self.client_handler.get_client_qrcode(email,url_vless_tcp_tls_obfs,append_name_5)
+        print(url_vless_tcp_tls_obfs)
+        self._line()
+        print("---------------------------------------------------VLESS TCP XTLS VISION-----------------------------------------------------------------\r\n")
+        append_name_6 = "VLESS-TCP-XTLS-VISION"
+        url_vless_tcp_xtls_vision = self.client_handler.v1_get_url_vless_tcp_xtls_vision(email)
+        self.client_handler.get_client_qrcode(email,url_vless_tcp_xtls_vision,append_name_6)
+        print(url_vless_tcp_xtls_vision)
+        self._line()
+        print("------------------------------------------------------TROJAN GRPC TLS--------------------------------------------------------------------\r\n")
+        append_name_7 = "TROJAN-GRPC-TLS"
+        url_trojan_gprc_tls = self.client_handler.v1_get_url_trojan_tcp_grpc_tls(email)
+        self.client_handler.get_client_qrcode(email,url_trojan_gprc_tls,append_name_7)
+        print(url_trojan_gprc_tls)
+        self._line()
+        print("----------------------------------------------------TROJAN GRPC TLS PROXY-----------------------------------------------------------------\r\n")
+        append_name_8 = "TROJAN-GRPC-TLS-PROXY"
+        url_trojan_gprc_tls_proxy = self.client_handler.v1_get_url_trojan_tcp_grpc_tls_proxy(email)
+        self.client_handler.get_client_qrcode(email,url_trojan_gprc_tls_proxy,append_name_8)
+        print(url_trojan_gprc_tls_proxy)
+        self._line()
 
     def consol_start(self):
         #Ceating Log Direcotry
@@ -187,30 +235,24 @@ class XrayHandler:
 
             elif command == "get-auto" : 
                 email = self.arguments.args.email
-                url_vmess_ws_nginx_tls = self.client_handler.v1_get_url_wmess_ws_nginx_tls(email)
-                print(url_vmess_ws_nginx_tls)
-                self._line()
-                url_vmess_ws_nginx_tls_proxy = self.client_handler.v1_get_url_wmess_ws_nginx_tls_proxy(email)
-                print(url_vmess_ws_nginx_tls)
-                self._line()
-                url_vmess_ws_tls = self.client_handler.v1_get_url_wmess_ws_tls(email)
-                print(url_vmess_ws_tls)
-                self._line()
-                url_vmess_tcp_obfs = self.client_handler.v1_get_url_wmess_tcp_obfs(email)
-                print(url_vmess_tcp_obfs)
-                self._line()
-                url_vless_tcp_tls_obfs = self.client_handler.v1_get_url_vless_tcp_tls_obfs(email)
-                print(url_vless_tcp_tls_obfs)
-                self._line()
-                url_vless_tcp_xtls_vision = self.client_handler.v1_get_url_vless_tcp_xtls_vision(email)
-                print(url_vless_tcp_xtls_vision)
-                self._line()
-                url_trojan_gprc_tls = self.client_handler.v1_get_url_trojan_tcp_grpc_tls(email)
-                print(url_trojan_gprc_tls)
-                self._line()
-                url_trojan_gprc_tls_proxy = self.client_handler.v1_get_url_trojan_tcp_grpc_tls_proxy(email)
-                print(url_trojan_gprc_tls_proxy)
-                self._line()
+                self._get_config_v1_1(email)
+
+            elif command == "get-auto-all" :
+                clients_email = self.client_handler.get_clients_email_list()
+                clients_uuid_list = self.client_handler.get_clients_uuid_list()
+                for index in range(len(clients_email)) :
+                    print(f"\r\n\r\n--------------------------------------------------{clients_email[index]}-----------------------------------------------------------------\r\n")
+                    self._get_config_v1_1(clients_email[index])
+                    
+                for index in range(len(clients_email)) :   
+                    self.doc.generate_docx(
+                        email=clients_email[index],
+                        uuid= clients_uuid_list[index]
+                    )
+                
+
+
+            
 
 
 
