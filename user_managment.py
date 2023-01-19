@@ -526,7 +526,7 @@ class ClientHandler :
         vless_xtls_profile = {
             "id": id,
             "email": email,
-            "flow": "xtls-rprx-direct"
+            "flow": "xtls-rprx-vision"
         }
         vmess_profile = {
             "id": id,
@@ -534,16 +534,24 @@ class ClientHandler :
             "level": 1,
             'alterId': 64
         }    
+        trojan_profile = {
+            "password": id,
+            "email": email
+        }
         # 4 
         js = self._read_json_conf()
         # 5
         for index,inbound in enumerate(self.inbound_settings):
             if inbound.protocol == "vmess":
                 js["inbounds"][index]["settings"]["clients"].append(vmess_profile)
-            if inbound.protocol == "vless" and inbound.security != "xtls":
+            if inbound.protocol == "vless" and inbound.tcp_setting_header_type == "http":
                 js["inbounds"][index]["settings"]["clients"].append(vless_profile)
-            if inbound.protocol == "vless" and inbound.security == "xtls":
+            if inbound.protocol == "vless" and inbound.security == "tls" and inbound.tcp_setting_header_type != "http" :
                 js["inbounds"][index]["settings"]["clients"].append(vless_xtls_profile)
+            # Trojan Config ADD
+            if inbound.protocol == "trojan" :
+                js["inbounds"][index]["settings"]["clients"].append(trojan_profile)
+
            
         # 6
         with open(self.xray_conf_dir,"w") as xray_config :

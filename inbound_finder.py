@@ -65,7 +65,7 @@ class InboundSetting:
         try:
             tcp_setting_header_type = json_inbound["streamSettings"]["tcpSettings"]["header"]["type"]
         except KeyError:
-            tcp_setting_header_type = "http"
+            tcp_setting_header_type = "none"
 
         return InboundSetting(
             listen=listen,
