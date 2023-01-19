@@ -187,8 +187,8 @@ class ClientHandler :
 
 
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls" :
-                url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":8444"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"host=www.google.com&"+f"headerType={inbound.tcp_setting_header_type}&"+f"type={inbound.network}&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls" and inbound.tcp_setting_header_type == "http" :
+                url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"host=www.google.com&"+f"headerType={inbound.tcp_setting_header_type}&"+f"type={inbound.network}&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
 
         return url
 
@@ -201,7 +201,7 @@ class ClientHandler :
 
 
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
+            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls" :
                 url: str = "vless://"+profile["id"]+f"@{self.vmess.domain_name}"+f":{inbound.port}"+"?"+f"security={inbound.security}&"+f"encryption=none&"+f"alpn={inbound.alpn[0]},{inbound.alpn[1]}&"+f"headerType=none&"+f"type={inbound.network}&"+f"flow=xtls-rprx-vision&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
 
         return url
@@ -214,10 +214,9 @@ class ClientHandler :
         vpn_name = vpn_name+"-"+"7"
         url = ""
 
-
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
-                url: str = "trojan://"+profile["id"]+f"@{self.vmess.domain_name}"+f":8443"+"?"+f"mode=gun&security=tls&alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+            if inbound.protocol == "trojan" and inbound.network == "gun" and inbound.security == "tls":
+                url: str = "trojan://"+profile["id"]+f"@{self.vmess.domain_name}"+f":{inbound.port}"+"?"+f"mode={inbound.network}&"+f"security={inbound.security}&"+f"alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
 
         return url
 
@@ -225,13 +224,12 @@ class ClientHandler :
     def v1_get_url_trojan_tcp_grpc_tls_proxy(self,email: str)  :
         profile = self.get_client_profile(email)
         vpn_name =  self.vmess.vpn_name 
-        vpn_name = vpn_name+"-"+"7"
+        vpn_name = vpn_name+"-"+"8"
         url = ""
 
-
         for inbound in self.inbound_settings :
-            if inbound.protocol == "vless" and inbound.network == "tcp" and inbound.security == "tls":
-                url: str = "trojan://"+profile["id"]+f"@{self.vmess.cdn_name}"+f":8443"+"?"+f"mode=gun&security=tls&alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
+            if inbound.protocol == "trojan" and inbound.network == "gun" and inbound.security == "tls":
+                url: str = "trojan://"+profile["id"]+f"@{self.vmess.cdn_name}"+f":{inbound.port}"+"?"+f"mode={inbound.network}&"+f"security={inbound.security}&"+f"alpn=h2,http/1.1&type=grpc&serviceName=zan-zendegi-azadi&"+f"sni={self.vmess.domain_name}"+f"#{vpn_name}"
 
         return url
 

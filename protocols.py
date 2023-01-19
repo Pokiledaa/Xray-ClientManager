@@ -69,8 +69,10 @@ class Vmess(Protocols):
         self.vmess_dict_base["ps"] = self.domain_name
 
     def url_ws_tls_nginx(self,id, inboubd: InboundSetting,append_vpn_name: str):
+        name = self.vpn_name
+        name = name+"-"+append_vpn_name
         vmess_dict = self.vmess_dict_base
-        vmess_dict["ps"] = (self.vpn_name + append_vpn_name)
+        vmess_dict["ps"] = name
         vmess_dict["add"] = self.domain_name
         vmess_dict["port"] = 443
         vmess_dict["id"] = id
@@ -87,8 +89,10 @@ class Vmess(Protocols):
         return vmess_dict
 
     def url_ws_tls_nginx_proxy(self,id, inboubd: InboundSetting,append_vpn_name: str):
+        name = self.vpn_name
+        name = name+"-"+append_vpn_name
         vmess_dict = self.vmess_dict_base
-        vmess_dict["ps"] = (self.vpn_name + append_vpn_name)
+        vmess_dict["ps"] = name
         vmess_dict["add"] = self.cdn_name
         vmess_dict["port"] = 443
         vmess_dict["id"] = id
@@ -106,8 +110,10 @@ class Vmess(Protocols):
 
 
     def url_ws_tls(self,id, inboubd: InboundSetting,append_vpn_name: str):
+        name = self.vpn_name
+        name = name+"-"+append_vpn_name
         vmess_dict = self.vmess_dict_base
-        vmess_dict["ps"] = (self.vpn_name + append_vpn_name)
+        vmess_dict["ps"] = name
         vmess_dict["add"] = self.domain_name
         vmess_dict["port"] = inboubd.port
         vmess_dict["id"] = id
@@ -119,14 +125,15 @@ class Vmess(Protocols):
         vmess_dict["path"] = inboubd.path
         vmess_dict["tls"] = "tls"
         vmess_dict["sni"] = self.domain_name
-        vmess_dict["alpn"] = inboubd.alpn
+        vmess_dict["alpn"] = f"{inboubd.alpn[0]},{inboubd.alpn[1]}"
 
         return vmess_dict
 
     def url_tcp_obfs(self,id, inboubd: InboundSetting,append_vpn_name: str):
-        
+        name = self.vpn_name
+        name = name+"-"+append_vpn_name
         vmess_dict = self.vmess_dict_base
-        vmess_dict["ps"] = (self.vpn_name + append_vpn_name)
+        vmess_dict["ps"] = name
         vmess_dict["add"] = self.cdn_name
         vmess_dict["port"] = inboubd.port
         vmess_dict["id"] = id
