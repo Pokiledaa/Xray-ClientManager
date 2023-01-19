@@ -247,11 +247,7 @@ class XrayHandler:
                     print(f"\r\n\r\n--------------------------------------------------{clients_email[index]}-----------------------------------------------------------------\r\n")
                     self._get_config_v1_1(clients_email[index])
                     
-                for index in range(len(clients_email)) :   
-                    self.doc.generate_docx(
-                        email=clients_email[index],
-                        uuid= clients_uuid_list[index]
-                    )
+    
                 
 
 
