@@ -582,8 +582,12 @@ class ClientHandler :
                         new_email = parsed_email[0]+"@"+parsed_email[1]
                         client["email"] = new_email
                     # changing the id of the user
-                    if id != "":   
+                    if id != "" and js["inbounds"][index]["protocol"] != "trojan":   
                         client["id"] = id
+                    if id != "" and js["inbounds"][index]["protocol"] == "trojan":
+                        client["password"] = id
+
+                    
 
         with open(self.xray_conf_dir,"w") as xray_config :
             json.dump(js,xray_config,indent=4)

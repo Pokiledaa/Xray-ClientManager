@@ -7,3 +7,4 @@ config.json
 xray.exe
 log
 .get-pip.py
+.omde.sh
